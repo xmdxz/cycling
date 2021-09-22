@@ -1,7 +1,8 @@
 # 设置服务端口号
 server:
   port: 5678
-
+  servlet:
+    context-path: /
 # 设置数据库连接相关参数
 spring:
   datasource:
@@ -20,4 +21,10 @@ spring:
 # 设置mybatis相关配置
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.cycling.pojo
+  type-aliases-package: com.cycling.pojo,com.cycling.view
+# 控制台日志设置
+logging:
+  config: classpath:config/log4j2.xml
+  level:
+    com.cycling.dao: debug
+    org.springframework.web: debug
