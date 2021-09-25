@@ -1,7 +1,12 @@
 package com.cycling.controller;
 
+import com.cycling.dto.Student;
+import com.cycling.service.TestService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Author xpdxz
@@ -13,9 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
+    @Resource
+    private TestService testService;
+
     @RequestMapping("/test")
-    public String getTestMessage(){
+    public String getTestMessage() {
         return "test";
+    }
+
+    @RequestMapping("/getStudent")
+    public List<Student> getStudent() {
+        return testService.getList();
     }
 
 }
