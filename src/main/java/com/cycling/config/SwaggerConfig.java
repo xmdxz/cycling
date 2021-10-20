@@ -27,7 +27,6 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.cycling.controller"))
                 .paths(PathSelectors.any()).build();
-
     }
 
     @Bean
