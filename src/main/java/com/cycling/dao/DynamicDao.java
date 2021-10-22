@@ -2,6 +2,8 @@ package com.cycling.dao;
 
 import com.cycling.pojo.Dynamic;
 
+import java.util.List;
+
 /**
  * @ClassName: DynamicDao
  * @Author: RainGoal
@@ -25,4 +27,12 @@ public interface DynamicDao {
      * @return: int
      */
     int deleteDynamic(Integer id);
+
+    /**
+     * 根据用户查询动态
+     * @author RainGoal
+     * @param username
+     * @return: java.util.List<com.cycling.pojo.Dynamic>
+     */
+    List<Dynamic> findDynamicByUser(String username);
 }
