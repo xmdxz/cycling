@@ -20,14 +20,14 @@ public class TestShiroController {
     @RequiresRoles(logical = Logical.OR,value = {"user","admin"})
     @ResponseBody
     public ResponseResult user(){
-        return ResponseResult.ok("成功访问admin接口");
+        return ResponseResult.ok("成功访问user接口");
     };
 
     @PostMapping("/admin")
     @RequiresRoles(logical = Logical.OR,value = {"admin"})
     @ResponseBody
     public ResponseResult admin() {
-        return ResponseResult.ok("成功访问user接口");
+        return ResponseResult.ok("成功访问admin接口");
     };
 
 }
