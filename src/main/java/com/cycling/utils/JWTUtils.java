@@ -25,12 +25,12 @@ public class JWTUtils {
     /**
      * token过期时间
      */
-    private static final long EXPIRE_TIME = 60*60*24*7;
+    private static final long EXPIRE_TIME = 60 * 60 * 24 * 7;
 
     /**
      * 刷新时间
      */
-    public static final long RefreshToken_EXPIRE_TIME = 60*60*24*7*14;
+    public static final long REFRESH_TOKEN_EXPIRE_TIME = 60 * 60 * 24 * 7 * 14;
 
     /**
      * 生成token
@@ -40,14 +40,11 @@ public class JWTUtils {
      * @date 2021/9/29 12:04 下午
      * @return: java.lang.String
      */
-    public static String getToken(Map<String, String> map,long currentTime) {
-        Date date = new Date(EXPIRE_TIME+currentTime);
+    public static String getToken(Map<String, String> map, long currentTime) {
+        Date date = new Date(EXPIRE_TIME + currentTime);
         JWTCreator.Builder builder = JWT.create();
-        map.forEach((k, v) -> {
-            builder.withClaim(k, v);
-        });
-        String token = builder.withExpiresAt(date).sign(Algorithm.HMAC256(SIGN));
-        return token;
+        map.forEach(builder::withClaim);
+        return builder.withExpiresAt(date).sign(Algorithm.HMAC256(SIGN));
     }
 
     /**
@@ -72,7 +69,6 @@ public class JWTUtils {
      * @return: com.auth0.jwt.interfaces.DecodedJWT
      */
     public static DecodedJWT getTokenInfo(String token) {
-        DecodedJWT verify = JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
-        return verify;
+        return JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
     }
 }

@@ -61,7 +61,7 @@ public class MyShiroConfig {
 
     //创建一个安全管理器
     @Bean
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(CustomerRelam customRealm) {
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(CustomerRealm customRealm) {
 
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         //设置自定义的realm

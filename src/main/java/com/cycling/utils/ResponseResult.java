@@ -18,18 +18,23 @@ public class ResponseResult extends HashMap<String, Object> {
         put("code", code);
     }
 
+    public static ResponseResult ok(String msg) {
+        return new ResponseResult(msg, 200);
+    }
+
     public static ResponseResult ok() {
         return new ResponseResult("success", 200);
     }
 
+
     public static ResponseResult ok(Map<String, Object> map) {
-        ResponseResult ok = ok();
+        ResponseResult ok = ok("success");
         ok.put("data", map);
         return ok;
     }
 
     public static <T> ResponseResult ok(T data){
-        ResponseResult ok = ok();
+        ResponseResult ok = ok("success");
         ok.put("data",data);
         return ok;
     }

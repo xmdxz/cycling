@@ -33,16 +33,17 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     /**
      * 刷新AccessToken，进行判断RefreshToken是否过期也就是到30分钟没有，未过期就返回新的jwt——Token且继续正常访问
+     *
      * @param request
      * @param response
      * @return
      */
     private boolean refreshToken(ServletRequest request, ServletResponse response) {
-        String jwt_token = ((HttpServletRequest)request).getHeader("token");
+        String jwt_token = ((HttpServletRequest) request).getHeader("token");
         //从jwt——token中拿出用户名和登录时间来判断Redis是否存在所对应的RefreshToken
-        DecodedJWT info= JWTUtils.getTokenInfo(jwt_token);
+        DecodedJWT info = JWTUtils.getTokenInfo(jwt_token);
         String username = info.getClaim("username").asString();
-        Long currentTime=info.getClaim("currentTime").asLong();
+        Long currentTime = info.getClaim("currentTime").asLong();
         // 判断Redis中RefreshToken是否存在
         if (RedisUtil.hasKey(username)) {
             // Redis中RefreshToken还存在，获取RefreshToken的时间戳
@@ -50,13 +51,13 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             // 获取当前jwt——Token中的时间戳，与RefreshToken的时间戳对比，如果当前时间戳一致，对jwt——Token进行刷新
             if (currentTimeMillisRedis.equals(currentTime)) {
                 // 获取当前最新时间戳
-                Long currentTimeMillis =System.currentTimeMillis();
+                Long currentTimeMillis = System.currentTimeMillis();
                 //进行刷新redis中的RefreshToken
                 RedisUtil.set(username, currentTimeMillis,
-                        JWTUtils.RefreshToken_EXPIRE_TIME);
+                        JWTUtils.REFRESH_TOKEN_EXPIRE_TIME);
                 // 刷新jwt——Token，设置时间戳为当前最新时间戳也就是重新生成jwt——token
-                Map<String,String> map=new HashMap<>();
-                map.put("username",username);
+                Map<String, String> map = new HashMap<>();
+                map.put("username", username);
                 jwt_token = JWTUtils.getToken(map, currentTimeMillis);
                 HttpServletResponse httpServletResponse = (HttpServletResponse) response;
                 httpServletResponse.setHeader("Authorization", jwt_token);
@@ -69,13 +70,14 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     /**
      * 把服务端的响应转换为客户端的响应设置一些基本状态字符类型，然后返回指定的信息
+     *
      * @param response
      * @param msg
      */
-    private void responseError(ServletResponse response,String msg){
+    private void responseError(ServletResponse response, String msg) {
 
         //把服务端的response转换为客户端的response
-        HttpServletResponse httpServletResponse= (HttpServletResponse) response;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         //给客户端响应的状态设置为401
         httpServletResponse.setStatus(401);
         //设置字符集为utf-8
@@ -83,21 +85,22 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         //设置响应内容的类型
         httpServletResponse.setContentType("application/json;charset=UTF-8");
         //把响应的信息放在客户端响应体中
-        try{
+        try {
             //将msg封装为一个Result对象并用ObjectMapper().writeValueAsString方法将其json话并返回
-            String message = new ObjectMapper().writeValueAsString(new ResponseResult(msg,401));
+            String message = new ObjectMapper().writeValueAsString(new ResponseResult(msg, 401));
             //向客户端响应体中追加信息
             httpServletResponse.getWriter().append(message);
-        }catch (IOException e)
-        {
-              e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+
     /**
      * 创建shiro token  覆盖AuthenticatingFilter类中createToken方法
      * 因为executeLogin方法重需要创建token但不符合我们的需要所以我们去重写它
      * 不符合要求是因为
      * 我们需要jwt生成的token
+     *
      * @param request
      * @param response
      * @return
@@ -107,16 +110,18 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
 
         //重请客户端响应体请求头中获取token
-        String jwtToken = ((HttpServletRequest)request).getHeader("token");
+        String jwtToken = ((HttpServletRequest) request).getHeader("token");
 
-        if(jwtToken!=null)
+        if (jwtToken != null) {
             return new JwtToken(jwtToken);
+        }
 
         return null;
     }
+
     /**
-     *
      * 判断是否登录 在进行登录的时候才会走这个方法
+     *
      * @param request
      * @param response
      * @param mappedValue
@@ -125,18 +130,19 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 
-        try{
-            return executeLogin(request,response);
-        }catch (Exception e)
-        {
+        try {
+            return executeLogin(request, response);
+        } catch (Exception e) {
             e.printStackTrace();
-            responseError(response,"认证失败");
+            responseError(response, "认证失败");
             //抛出异常说明没有登录 返回false
             return false;
         }
     }
+
     /**
      * shiro验证成功调用  isAccessAllowed返回true时调用该方法
+     *
      * @param token
      * @param subject
      * @param request
@@ -148,14 +154,14 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
 
         //由于我们重写了createToken方法 所以重shiro中的token中获取的凭证就是jwt的token
-        String jwt_token= (String) token.getPrincipal();
-        if (jwt_token!=null){
-            try{
-                if(JWTUtils.verify(jwt_token)){
+        String jwt_token = (String) token.getPrincipal();
+        if (jwt_token != null) {
+            try {
+                if (JWTUtils.verify(jwt_token)) {
                     //从jwt——token中拿出用户名和登录时间来判断Redis是否存在所对应的RefreshToken
-                    DecodedJWT info=JWTUtils.getTokenInfo(jwt_token);
+                    DecodedJWT info = JWTUtils.getTokenInfo(jwt_token);
                     String username = info.getClaim("username").asString();
-                    Long currentTime=info.getClaim("currentTime").asLong();
+                    Long currentTime = info.getClaim("currentTime").asLong();
                     //判断Redis是否存在所对应的RefreshToken
                     if (RedisUtil.hasKey(username)) {
                         //如果存在 则取出RefreshToken中的登陆时间
@@ -169,17 +175,17 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                 }
                 //如果一致返回false不一致说明账号被顶了 返回false 拦截
                 return false;
-            }catch (Exception e){
+            } catch (Exception e) {
                 //如果token验证失败 并获取验证失败的原因
                 Throwable throwable = e.getCause();
-                System.out.println("token验证失败的原因："+e.getClass());
+                System.out.println("token验证失败的原因：" + e.getClass());
                 //如果是因为token过期了验证失败需要续签
-                if (e instanceof TokenExpiredException){
+                if (e instanceof TokenExpiredException) {
                     System.out.println("token过期了准备续签");
                     //续签成功返回true 放行  失败 拦截
                     if (refreshToken(request, response)) {
                         return true;
-                    }else {
+                    } else {
                         return false;
                     }
                 }
@@ -190,6 +196,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     /**
      * isAccessAllowed为false时调用，验证失败
+     *
      * @param request
      * @param response
      * @return
@@ -199,12 +206,14 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 
         //把服务端request转换客户端request把服务端response转换客户端response
-        this.sendChallenge(request,response);
-        responseError(response,"token 验证失败");
+        this.sendChallenge(request, response);
+        responseError(response, "token 验证失败");
         return false;
     }
+
     /**
      * 是否进行登录请求
+     *
      * @param request
      * @param response
      * @return
@@ -213,9 +222,9 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
 
         //从客户端发起的请求头中取token
-        String token=((HttpServletRequest)request).getHeader("token");
+        String token = ((HttpServletRequest) request).getHeader("token");
         //如果token不为空说明用户是登录状态发起的请求 如果为空则不是登录状态发起的请求
-        if (token!=null){
+        if (token != null) {
             return true;
         }
         return false;
@@ -224,6 +233,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     /**
      * 拦截器的前置方法，进行跨域处理  也就是在访问请求时先进行跨域处理
+     *
      * @param request
      * @param response
      * @return
@@ -231,23 +241,24 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
-        HttpServletRequest httpServletRequest= (HttpServletRequest) request;
-        HttpServletResponse httpServletResponse= (HttpServletResponse) response;
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         //进行跨域处理
-        httpServletResponse.setHeader("Access-Control-Allow-Origin",httpServletRequest.getHeader("Origin"));
-        httpServletResponse.setHeader("Access-Control-Allow-Methods","GET,POST,OPTIONS,PUT,DELETE");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers",httpServletRequest.getHeader("Access-Control-Resquest-Headers"));
-        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())){
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Resquest-Headers"));
+        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
             httpServletResponse.setStatus(HttpStatus.OK.value());
         }
 
         //如果不携带token，返回false 直接拦截 不去验证shiro
-        if (!isLoginAttempt(request,response)){
-            responseError(httpServletResponse,"没有携带token");
+        if (!isLoginAttempt(request, response)) {
+            responseError(httpServletResponse, "没有携带token");
             return false;
         }
-        return super.preHandle(request,response);
+        return super.preHandle(request, response);
 
     }
 
 }
+
