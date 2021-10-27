@@ -9,7 +9,6 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
 @SpringBootApplication
 @EnableOpenApi
 @MapperScan(basePackages = "com.cycling.dao")
-@EnableCaching
 public class CyclingSsmApplication {
 
     public static void main(String[] args) {

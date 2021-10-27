@@ -3,9 +3,8 @@ package com.cycling.config;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.cycling.pojo.User;
 import com.cycling.service.UserService;
-import com.cycling.utils.JWTUtils;
 import com.cycling.utils.JwtToken;
-
+import com.cycling.utils.JWTUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

@@ -1,3 +1,4 @@
+
 package com.cycling.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class RedisUtil {
 
 
     public RedisUtil(RedisTemplate<String, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
+        RedisUtil.redisTemplate = redisTemplate;
     }
 
     /**
@@ -599,3 +600,4 @@ public class RedisUtil {
     }
 
 }
+

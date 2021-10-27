@@ -18,9 +18,14 @@ public class ResponseResult extends HashMap<String, Object> {
         put("code", code);
     }
 
-    public static ResponseResult ok(String mes) {
-        return new ResponseResult(mes, 200);
+    public static ResponseResult ok(String msg) {
+        return new ResponseResult(msg, 200);
     }
+
+    public static ResponseResult ok() {
+        return new ResponseResult("success", 200);
+    }
+
 
     public static ResponseResult ok(Map<String, Object> map) {
         ResponseResult ok = ok("success");
