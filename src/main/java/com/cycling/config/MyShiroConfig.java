@@ -27,7 +27,11 @@ import java.util.Map;
 public class MyShiroConfig {
 
 
-    //创建一个shiro过滤器
+    /**
+     * 创建shiro过滤器
+     * @param defaultWebSecurityManager 安全管理
+     * @return 返回过滤
+     */
     @Bean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(DefaultWebSecurityManager defaultWebSecurityManager) {
 
@@ -44,7 +48,8 @@ public class MyShiroConfig {
         Map<String, String> sourceMap = new LinkedHashMap<>();
         //放行的资源
         sourceMap.put("/login", "anon");
-        sourceMap.put("/", "anon");//anon代表可以匿名访问的过滤器的名字缩写是shiro自带的
+        //anon代表可以匿名访问的过滤器的名字缩写是shiro自带的
+        sourceMap.put("/", "anon");
         //释放swagger资源
         sourceMap.put("/swagger-ui/index.html", "anon");
         sourceMap.put("/swagger-resources/**/**", "anon");
@@ -53,15 +58,20 @@ public class MyShiroConfig {
         sourceMap.put("/configuration/security", "anon");
         sourceMap.put("/configuration/ui", "anon");
         //拦截的资源
-        sourceMap.put("/**", "jwt");//拦截所有jwt不放行的资源  jwt是我们自定义的过滤器名字的缩写
+        //拦截所有jwt不放行的资源  jwt是我们自定义的过滤器名字的缩写
+        sourceMap.put("/**", "jwt");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(sourceMap);
         return shiroFilterFactoryBean;
     }
 
-    //创建一个安全管理器
+    /**
+     * 创建安全管理器
+     * @param customRealm
+     * @return
+     */
     @Bean
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(CustomerRelam customRealm) {
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(CustomerRealm customRealm) {
 
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         //设置自定义的realm
