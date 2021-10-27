@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -21,7 +22,16 @@ public class JWTUtils {
      */
     private static final String SIGN = "@!off&*i</c)i+-a$l&%GYR%99jo32j$#:][";
 
-    private static final long EXPIRE_TIME = 5*60*1000;
+    /**
+     * token过期时间
+     */
+    private static final long EXPIRE_TIME = 60*60*24*7;
+
+    /**
+     * 刷新时间
+     */
+    public static final long RefreshToken_EXPIRE_TIME = 60*60*24*7*14;
+
     /**
      * 生成token
      *
@@ -30,14 +40,13 @@ public class JWTUtils {
      * @date 2021/9/29 12:04 下午
      * @return: java.lang.String
      */
-    public static String getToken(Map<String, String> map) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, 99999);
+    public static String getToken(Map<String, String> map,long currentTime) {
+        Date date = new Date(EXPIRE_TIME+currentTime);
         JWTCreator.Builder builder = JWT.create();
         map.forEach((k, v) -> {
             builder.withClaim(k, v);
         });
-        String token = builder.withExpiresAt(calendar.getTime()).sign(Algorithm.HMAC256(SIGN));
+        String token = builder.withExpiresAt(date).sign(Algorithm.HMAC256(SIGN));
         return token;
     }
 
@@ -49,8 +58,9 @@ public class JWTUtils {
      * @date 2021/9/29 11:57 上午
      * @return: void
      */
-    public static void verify(String token) {
+    public static boolean verify(String token) {
         JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
+        return true;
     }
 
     /**
