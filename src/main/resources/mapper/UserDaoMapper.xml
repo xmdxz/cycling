@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.cycling.dao.UserDao">
+    <sql id="BASE_COLUMN_INSERT">
+         id,password,method,wx_openid,qq_openid,phone,create_time,last_login_time,salt
+    </sql>
+    <select id="selectByPhone" resultType="com.cycling.pojo.User">
+      select
+      <include refid="BASE_COLUMN_INSERT"/>
+      from user
+      where user.phone=#{phone}
+    </select>
+
+</mapper>
