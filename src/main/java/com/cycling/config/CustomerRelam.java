@@ -5,6 +5,7 @@ import com.cycling.pojo.User;
 import com.cycling.service.UserService;
 import com.cycling.utils.JWTUtils;
 import com.cycling.utils.JwtToken;
+import lombok.extern.log4j.Log4j2;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -28,6 +29,7 @@ import java.util.Set;
  * @Version: V1.0
  */
 @Component
+@Log4j2
 public class CustomerRelam extends AuthorizingRealm {
 
     @Autowired
@@ -41,7 +43,7 @@ public class CustomerRelam extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("用户授权");
+        log.info("用户授权:");
         String username = (principalCollection.toString());
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //测试
@@ -59,7 +61,7 @@ public class CustomerRelam extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        System.out.println("shiro身份认证");
+        log.info("shiro身份授权认证");
         String token = (String) authenticationToken.getCredentials();
         DecodedJWT tokenInfo = JWTUtils.getTokenInfo(token);
         String username = tokenInfo.getClaim("username").asString();
