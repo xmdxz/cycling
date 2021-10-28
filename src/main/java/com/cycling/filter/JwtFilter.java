@@ -178,10 +178,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             } catch (Exception e) {
                 //如果token验证失败 并获取验证失败的原因
                 Throwable throwable = e.getCause();
-                System.out.println("token验证失败的原因：" + e.getClass());
                 //如果是因为token过期了验证失败需要续签
                 if (e instanceof TokenExpiredException) {
-                    System.out.println("token过期了准备续签");
                     //续签成功返回true 放行  失败 拦截
                     if (refreshToken(request, response)) {
                         return true;

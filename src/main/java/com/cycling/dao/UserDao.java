@@ -14,6 +14,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDao {
 
-    //根据手机号查询用户
+    /**
+     * 根据手机号查询数据库
+     * @param phone 手机号
+     * @return User
+     */
     User selectByPhone(String phone);
 }

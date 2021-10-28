@@ -16,8 +16,10 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,7 +35,7 @@ import java.util.Set;
 public class CustomerRealm extends AuthorizingRealm {
 
 
-    @Autowired
+    @Resource
     private UserService userService;
     //让能识别自定义token
     @Override

@@ -16,13 +16,14 @@ import java.util.Set;
  * @Version: V1.0
  */
 
-public class RedisCache<K,V> implements Cache<K,V> {
+public class RedisCache<K, V> implements Cache<K, V> {
 
     private String cacheName;
 
     public RedisCache() {
 
     }
+
     public RedisCache(String cacheName) {
         this.cacheName = cacheName;
     }
@@ -30,13 +31,13 @@ public class RedisCache<K,V> implements Cache<K,V> {
     @Override
     public V get(K k) throws CacheException {
 
-      return (V) RedisUtil.hget(this.cacheName,k.toString());
+        return (V) RedisUtil.hget(this.cacheName, k.toString());
     }
 
     @Override
     public V put(K k, V v) throws CacheException {
 
-        RedisUtil.hset(this.cacheName,k.toString(),v);
+        RedisUtil.hset(this.cacheName, k.toString(), v);
         return null;
     }
 
