@@ -3,6 +3,7 @@ package com.cycling.service;
 import com.cycling.pojo.User;
 import com.cycling.pojo.UserInfo;
 import com.cycling.pojo.dto.OwnInfo;
+import com.cycling.pojo.dto.RelatedCount;
 
 /**
  * @author xpdxz
@@ -29,5 +30,18 @@ public interface UserService {
      * @return
      */
     OwnInfo getMyInfo();
+
+    /**
+     * 获取用户相关粉丝数
+     * @return
+     */
+    RelatedCount getRelatedCount();
+
+    /**
+     * 更新用户信息
+     * @param userInfo
+     * @return
+     */
+    int updateInfo(UserInfo userInfo);
 
 }
