@@ -55,8 +55,8 @@ public class MyShiroConfig {
         sourceMap.put("/configuration/ui", "anon");
         //拦截的资源
         //拦截所有jwt不放行的资源  jwt是我们自定义的过滤器名字的缩写
-        //sourceMap.put("/**", "jwt");
-        sourceMap.put("/**","anon");
+        sourceMap.put("/**", "jwt");
+//        sourceMap.put("/**", "anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(sourceMap);
         return shiroFilterFactoryBean;
     }

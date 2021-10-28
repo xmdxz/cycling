@@ -43,10 +43,10 @@ public class CustomerRealm extends AuthorizingRealm {
         System.out.println("用户授权");
         String token=(principalCollection.toString());
         DecodedJWT tokenInfo = JWTUtils.getTokenInfo(token);
-        String username = tokenInfo.getClaim("username").asString();
+        String phone = tokenInfo.getClaim("phone").asString();
         SimpleAuthorizationInfo info= new SimpleAuthorizationInfo();
         //测试
-        if (username.equals("13994722068")){
+        if (phone.equals("13994722068")){
             Set<String> role=new HashSet<>();
             role.add("admin");
             info.setRoles(role);
@@ -63,8 +63,8 @@ public class CustomerRealm extends AuthorizingRealm {
         System.out.println("shiro身份认证");
         String token= (String) authenticationToken.getCredentials();
         DecodedJWT tokenInfo = JWTUtils.getTokenInfo(token);
-        String username=tokenInfo.getClaim("username").asString();
-        User user=userService.findByPhone(username);
+        String phone=tokenInfo.getClaim("phone").asString();
+        User user=userService.findByPhone(phone);
         if (ObjectUtils.isEmpty(user)){
             throw new AuthenticationException("认证失败！");
         }

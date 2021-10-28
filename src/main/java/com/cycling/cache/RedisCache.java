@@ -33,6 +33,7 @@ public class RedisCache<K,V> implements Cache<K,V> {
 
     @Override
     public V put(K k, V v) throws CacheException {
+        System.out.println("info");
         RedisUtil.hset(this.cacheName,k.toString(),v);
         return null;
     }

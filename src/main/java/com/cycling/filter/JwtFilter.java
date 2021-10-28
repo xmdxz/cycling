@@ -42,22 +42,22 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         String jwt_token = ((HttpServletRequest) request).getHeader("token");
         //从jwt——token中拿出用户名和登录时间来判断Redis是否存在所对应的RefreshToken
         DecodedJWT info = JWTUtils.getTokenInfo(jwt_token);
-        String username = info.getClaim("username").asString();
+        String phone = info.getClaim("phone").asString();
         Long currentTime = info.getClaim("currentTime").asLong();
         // 判断Redis中RefreshToken是否存在
-        if (RedisUtil.hasKey(username)) {
+        if (RedisUtil.hasKey(phone)) {
             // Redis中RefreshToken还存在，获取RefreshToken的时间戳
-            Long currentTimeMillisRedis = (Long) RedisUtil.get(username);
+            Long currentTimeMillisRedis = (Long) RedisUtil.get(phone);
             // 获取当前jwt——Token中的时间戳，与RefreshToken的时间戳对比，如果当前时间戳一致，对jwt——Token进行刷新
             if (currentTimeMillisRedis.equals(currentTime)) {
                 // 获取当前最新时间戳
                 Long currentTimeMillis = System.currentTimeMillis();
                 //进行刷新redis中的RefreshToken
-                RedisUtil.set(username, currentTimeMillis,
+                RedisUtil.set(phone, currentTimeMillis,
                         JWTUtils.REFRESH_TOKEN_EXPIRE_TIME);
                 // 刷新jwt——Token，设置时间戳为当前最新时间戳也就是重新生成jwt——token
                 Map<String, String> map = new HashMap<>();
-                map.put("username", username);
+                map.put("phone", phone);
                 jwt_token = JWTUtils.getToken(map, currentTimeMillis);
                 HttpServletResponse httpServletResponse = (HttpServletResponse) response;
                 httpServletResponse.setHeader("Authorization", jwt_token);
@@ -160,12 +160,12 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                 if (JWTUtils.verify(jwt_token)) {
                     //从jwt——token中拿出用户名和登录时间来判断Redis是否存在所对应的RefreshToken
                     DecodedJWT info = JWTUtils.getTokenInfo(jwt_token);
-                    String username = info.getClaim("phone").asString();
+                    String phone = info.getClaim("phone").asString();
                     Long currentTime = info.getClaim("currentTime").asLong();
                     //判断Redis是否存在所对应的RefreshToken
-                    if (RedisUtil.hasKey(username)) {
+                    if (RedisUtil.hasKey(phone)) {
                         //如果存在 则取出RefreshToken中的登陆时间
-                        Long currentTimeMillisRedis = (Long) RedisUtil.get(username);
+                        Long currentTimeMillisRedis = (Long) RedisUtil.get(phone);
                         //判断jwt——token的登录时间是否与redis存的RefreshToken中的登录时间一致
                         //如果一致返回true 放行不一致说明账号被顶了 返回false 登录失败 拦截
                         if (currentTimeMillisRedis.equals(currentTime)) {
