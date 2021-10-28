@@ -42,7 +42,7 @@ public class LoginController {
         long currentTimeMillis = System.currentTimeMillis();
         //生成token
         Map<String, String> map = new HashMap<>(16);
-        map.put("phone", phone);
+        map.put("id", String.valueOf(user.getId()));
         String token = JWTUtils.getToken(map, currentTimeMillis);
         //把该账号登陆时间以用户名作为key存入redis 有效时间为30分钟用来刷新token和踢出用户
         RedisUtil.set(phone, currentTimeMillis, JWTUtils.REFRESH_TOKEN_EXPIRE_TIME);

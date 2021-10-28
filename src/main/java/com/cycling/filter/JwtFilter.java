@@ -160,12 +160,12 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                 if (JWTUtils.verify(jwt_token)) {
                     //从jwt——token中拿出用户名和登录时间来判断Redis是否存在所对应的RefreshToken
                     DecodedJWT info = JWTUtils.getTokenInfo(jwt_token);
-                    String phone = info.getClaim("phone").asString();
+                    String id = info.getClaim("id").asString();
                     Long currentTime = info.getClaim("currentTime").asLong();
                     //判断Redis是否存在所对应的RefreshToken
-                    if (RedisUtil.hasKey(phone)) {
+                    if (RedisUtil.hasKey(id)) {
                         //如果存在 则取出RefreshToken中的登陆时间
-                        Long currentTimeMillisRedis = (Long) RedisUtil.get(phone);
+                        Long currentTimeMillisRedis = (Long) RedisUtil.get(id);
                         //判断jwt——token的登录时间是否与redis存的RefreshToken中的登录时间一致
                         //如果一致返回true 放行不一致说明账号被顶了 返回false 登录失败 拦截
                         if (currentTimeMillisRedis.equals(currentTime)) {

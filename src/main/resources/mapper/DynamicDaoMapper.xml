@@ -5,13 +5,22 @@
 
     <resultMap id="dynamic" type="com.cycling.pojo.Dynamic">
         <id column="id" property="id"></id>
-
+        <result column="title" property="title"></result>
+        <result column="content" property="content"></result>
+        <result column="time" property="time"></result>
+        <result column="author_id" property="authorId"></result>
+        <result column="position" property="position"></result>
     </resultMap>
 
+    <sql id="dynamicFiled">
+        id
+        ,title,content,`time`,author_id,`position`
+    </sql>
     <!--插入动态-->
     <insert id="addDynamic" parameterType="com.cycling.pojo.Dynamic">
         insert into dynamic(title, content, time, author_id, position)
-        values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{time,jdbcType=TIMESTAMP}, #{authorId,jdbcType=INTEGER},#{position,jdbcType=VARCHAR})
+        values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{time,jdbcType=TIMESTAMP},
+                #{authorId,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR})
     </insert>
     <!--删除动态-->
     <delete id="deleteDynamic">
@@ -19,8 +28,22 @@
         from dynamic
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <!--根据用户手机号查询动态-->
-    <select id="findDynamicByUser">
+    <!--根据用户id查询动态-->
+    <select id="findDynamicByUser" resultMap="dynamic">
+        select
+        <include refid="dynamicFiled"></include>
+        from dynamic
+        where id = #{id} limit #{page},#{num};
+    </select>
+    <!--根据关注查询动态-->
+    <select id="findDynamicByAttention" resultMap="dynamic">
 
+    </select>
+    <!--根据地区查询动态-->
+    <select id="findDynamicByArea" resultType="com.cycling.pojo.Dynamic">
+        select
+        <include refid="dynamicFiled"></include>
+        from dynamic
+        where position = #{area} limit #{page},#{num}
     </select>
 </mapper>
