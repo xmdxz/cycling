@@ -3,8 +3,6 @@ package com.cycling.cache;
 import com.cycling.utils.RedisUtil;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
-import org.springframework.context.annotation.PropertySource;
-
 import java.util.Collection;
 import java.util.Set;
 
@@ -35,7 +33,6 @@ public class RedisCache<K,V> implements Cache<K,V> {
 
     @Override
     public V put(K k, V v) throws CacheException {
-
         RedisUtil.hset(this.cacheName,k.toString(),v);
         return null;
     }

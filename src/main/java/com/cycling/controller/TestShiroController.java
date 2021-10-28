@@ -12,22 +12,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class TestShiroController {
     @RequestMapping("/")
+    @ResponseBody
     public String index()  {
-        return "index";
+        return "hhh";
     }
 
-    @PostMapping("/user")
+    @PostMapping("/u")
     @RequiresRoles(logical = Logical.OR,value = {"user","admin"})
     @ResponseBody
     public ResponseResult user(){
-        return ResponseResult.ok("成功访问admin接口");
+        return ResponseResult.ok("成功访问user接口");
     };
 
     @PostMapping("/admin")
     @RequiresRoles(logical = Logical.OR,value = {"admin"})
     @ResponseBody
     public ResponseResult admin() {
-        return ResponseResult.ok("成功访问user接口");
+        return ResponseResult.ok("成功访问admin接口");
     };
 
 }

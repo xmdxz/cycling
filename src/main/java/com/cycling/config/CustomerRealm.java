@@ -41,7 +41,9 @@ public class CustomerRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         System.out.println("用户授权");
-        String username=(principalCollection.toString());
+        String token=(principalCollection.toString());
+        DecodedJWT tokenInfo = JWTUtils.getTokenInfo(token);
+        String username = tokenInfo.getClaim("username").asString();
         SimpleAuthorizationInfo info= new SimpleAuthorizationInfo();
         //测试
         if (username.equals("13994722068")){

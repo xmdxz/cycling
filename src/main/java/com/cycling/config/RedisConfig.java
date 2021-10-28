@@ -75,27 +75,5 @@ public class RedisConfig {
         return redisTemplate;
     }
 
-    /**
-     * 配置springboot的默认缓存将其变为redis
-     * @param redisConnectionFactory
-     * @return
-     */
-    @Bean
-    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory){
-        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(60))
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keySerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()))
-                .disableCachingNullValues();
-        return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(redisCacheConfiguration).transactionAware().build();
 
-    }
-
-    private RedisSerializer<String> keySerializer(){
-        return new StringRedisSerializer();
-    }
-
-    private GenericJackson2JsonRedisSerializer valueSerializer(){
-        return new GenericJackson2JsonRedisSerializer();
-    }
 }

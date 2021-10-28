@@ -40,11 +40,22 @@ public class JWTUtils {
      * @date 2021/9/29 12:04 下午
      * @return: java.lang.String
      */
-    public static String getToken(Map<String, String> map, long currentTime) {
-        Date date = new Date(EXPIRE_TIME + currentTime);
+    public static String getToken(Map<String, String> map,Long currentTime) {
+
+        //设置Token的过期时间为五分钟
+        Date token_expire_time=new Date(currentTime+EXPIRE_TIME);
+        //用jwt创造token
         JWTCreator.Builder builder = JWT.create();
-        map.forEach(builder::withClaim);
-        return builder.withExpiresAt(date).sign(Algorithm.HMAC256(SIGN));
+        //用map遍历传入token的数据
+        map.forEach((k, v) -> {
+            builder.withClaim(k,v);
+        });
+        String token=builder
+                .withClaim("currentTime",currentTime)
+                .withExpiresAt(token_expire_time)
+                .sign(Algorithm.HMAC256(SIGN));
+        return token;
+
     }
 
     /**
@@ -55,9 +66,11 @@ public class JWTUtils {
      * @date 2021/9/29 11:57 上午
      * @return: void
      */
-    public static boolean verify(String token) {
-        JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
+    public static boolean verify (String token) throws Exception{
+
+        DecodedJWT v = JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
         return true;
+
     }
 
     /**
