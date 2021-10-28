@@ -27,7 +27,6 @@ public class RedisCache<K,V> implements Cache<K,V> {
 
     @Override
     public V get(K k) throws CacheException {
-
       return (V) RedisUtil.hget(this.cacheName,k.toString());
     }
 
