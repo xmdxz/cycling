@@ -1,6 +1,7 @@
 package com.cycling.dao;
 
 import com.cycling.pojo.Dynamic;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface DynamicDao {
      * @param id
      * @return: int
      */
-    int deleteDynamic(Integer id);
+    int deleteDynamic(@Param("id") Integer id);
 
     /**
      * 根据用户查询动态
@@ -34,7 +35,7 @@ public interface DynamicDao {
      * @param username
      * @return: java.util.List<com.cycling.pojo.Dynamic>
      */
-    List<Dynamic> findDynamicByUser(String username,int page,int num);
+    List<Dynamic> findDynamicByUser(@Param("phone") String phone,@Param("page") int page,@Param("num") int num);
 
     /**
      * 根据账户获取关注的人的动态

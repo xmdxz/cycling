@@ -6,6 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 
+/**
+ * @author xpdxz
+ */
 @SpringBootApplication
 @EnableOpenApi
 @MapperScan(basePackages = "com.cycling.dao")

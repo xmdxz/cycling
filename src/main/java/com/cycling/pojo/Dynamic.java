@@ -29,10 +29,6 @@ public class Dynamic {
      */
     private String content;
     /**
-     * 动态图片
-     */
-    private String images;
-    /**
      * 发布时间
      */
     private Timestamp time;
@@ -44,8 +40,4 @@ public class Dynamic {
      * 发布地址
      */
     private String position;
-    /**
-     * 话题id
-     */
-    private String topicId;
 }
