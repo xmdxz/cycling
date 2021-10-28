@@ -4,12 +4,12 @@ import com.cycling.dao.UserDao;
 import com.cycling.pojo.User;
 import com.cycling.pojo.UserInfo;
 import com.cycling.pojo.dto.OwnInfo;
+import com.cycling.pojo.dto.RelatedCount;
 import com.cycling.service.UserService;
 import com.cycling.utils.RequestUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Objects;
 
 /**
  * @ClassName: UserServiceImpl
@@ -32,15 +32,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfo selectUserInfoById() {
-        return userDao.selectUserInfoById(1L);
+        return userDao.selectUserInfoById(RequestUtil.getUserId());
     }
 
     @Override
     public OwnInfo getMyInfo() {
-        return userDao.getMyInfo(getUserId());
+        return userDao.getMyInfo(RequestUtil.getUserId());
     }
 
-    private Long getUserId(){
-        return Long.parseLong(Objects.requireNonNull(RequestUtil.getRequestValue("id")));
+    @Override
+    public RelatedCount getRelatedCount() {
+        return userDao.getRelatedCount(RequestUtil.getUserId());
     }
+
+    @Override
+    public int updateInfo(UserInfo userInfo) {
+        return userDao.updateInfo(RequestUtil.getUserId(), userInfo);
+    }
+
+
 }
