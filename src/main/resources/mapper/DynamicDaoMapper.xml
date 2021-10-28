@@ -1,0 +1,26 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cycling.dao.DynamicDao">
+
+    <resultMap id="dynamic" type="com.cycling.pojo.Dynamic">
+        <id column="id" property="id"></id>
+
+    </resultMap>
+
+    <!--插入动态-->
+    <insert id="addDynamic" parameterType="com.cycling.pojo.Dynamic">
+        insert into dynamic(title, content, time, author_id, position)
+        values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{time,jdbcType=TIMESTAMP}, #{authorId,jdbcType=INTEGER},#{position,jdbcType=VARCHAR})
+    </insert>
+    <!--删除动态-->
+    <delete id="deleteDynamic">
+        delete
+        from dynamic
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <!--根据用户手机号查询动态-->
+    <select id="findDynamicByUser">
+
+    </select>
+</mapper>
