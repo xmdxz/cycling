@@ -1,6 +1,8 @@
 package com.cycling.dao;
 
 import com.cycling.pojo.User;
+import com.cycling.pojo.UserInfo;
+import com.cycling.pojo.dto.OwnInfo;
 import io.swagger.models.auth.In;
 import org.springframework.stereotype.Repository;
 
@@ -27,5 +29,12 @@ public interface UserDao {
      * @param id id主键
      * @return  User
      */
-    User selectById(Integer id);
+    UserInfo selectUserInfoById(Long id);
+
+    /**
+     * 查找我的界面的头像等级，性别等
+     * @param id
+     * @return
+     */
+    OwnInfo getMyInfo(Long id);
 }

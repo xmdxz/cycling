@@ -1,5 +1,7 @@
 package com.cycling.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ import java.sql.Date;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class UserInfo {
 
     /**
@@ -78,6 +81,9 @@ public class UserInfo {
      * 经验
      */
     private Long exp;
-
+    /**
+     * 手机号
+     */
+    private String phone;
 
 }

@@ -44,7 +44,8 @@ public class MyShiroConfig {
         Map<String, String> sourceMap = new LinkedHashMap<>();
         //放行的资源
         sourceMap.put("/login", "anon");
-        sourceMap.put("/", "anon");//anon代表可以匿名访问的过滤器的名字缩写是shiro自带的
+        //anon代表可以匿名访问的过滤器的名字缩写是shiro自带的
+        sourceMap.put("/", "anon");
         //释放swagger资源
         sourceMap.put("/swagger-ui/index.html", "anon");
         sourceMap.put("/swagger-resources/**/**", "anon");
@@ -53,8 +54,9 @@ public class MyShiroConfig {
         sourceMap.put("/configuration/security", "anon");
         sourceMap.put("/configuration/ui", "anon");
         //拦截的资源
-        sourceMap.put("/**", "jwt");//拦截所有jwt不放行的资源  jwt是我们自定义的过滤器名字的缩写
-
+        //拦截所有jwt不放行的资源  jwt是我们自定义的过滤器名字的缩写
+        //sourceMap.put("/**", "jwt");
+        sourceMap.put("/**","anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(sourceMap);
         return shiroFilterFactoryBean;
     }
