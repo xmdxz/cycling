@@ -1,6 +1,7 @@
 package com.cycling.dao;
 
 import com.cycling.pojo.User;
+import io.swagger.models.auth.In;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,9 +16,16 @@ import org.springframework.stereotype.Repository;
 public interface UserDao {
 
     /**
-     * 根据手机号查询数据库
+     * 根据手机号查询
      * @param phone 手机号
      * @return User
      */
     User selectByPhone(String phone);
+
+    /**
+     * 根据id主键查询
+     * @param id id主键
+     * @return  User
+     */
+    User selectById(Integer id);
 }

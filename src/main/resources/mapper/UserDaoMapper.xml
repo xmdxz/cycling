@@ -5,6 +5,9 @@
 
 
 <mapper namespace="com.cycling.dao.UserDao">
+    
+    <resultMap id="" type=""
+    
     <sql id="BASE_COLUMN_INSERT">
          id,password,method,wx_openid,qq_openid,phone,create_time,last_login_time,salt
     </sql>
@@ -15,4 +18,6 @@
       where user.phone=#{phone}
     </select>
 
+    <select id="selectById" resultType="com.cycling.pojo.User">
+    </select>
 </mapper>
