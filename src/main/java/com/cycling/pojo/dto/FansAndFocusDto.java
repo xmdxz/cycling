@@ -31,6 +31,6 @@ public class FansAndFocusDto {
     /**
      * 互相关注
      */
-    private Integer mutualConcern;
+    private Boolean mutualConcern;
 
 }

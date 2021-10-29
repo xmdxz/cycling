@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<FansAndFocusDto> getFansAndSimpleUserInfo() {
-        return userDao.getFansAndSimpleUserInfo(RequestUtil.getUserId());
+        return userDao.getFansAndSimpleUserInfo(1L);
     }
 
     @Override

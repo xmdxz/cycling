@@ -113,7 +113,7 @@
         <include refid="fansAndFocus">
         </include>,
         (select count(child.id) from fans as child where child.userid = fans.fansid and child.fansid =
-        #{userId,jdbcType=BIGINT})
+        #{userId,jdbcType=BIGINT}) as mutualConcern
         from fans join user_info on fans.fansid = user_info.userid where fans.userid = #{userId,jdbcType=BIGINT}
     </select>
 
@@ -122,7 +122,7 @@
         <include refid="fansAndFocus">
         </include>,
         (select count(child.id) from fans as child where child.fansid = fans.userid and child.userid =
-        #{userId,jdbcType=BIGINT})
+        #{userId,jdbcType=BIGINT}) as mutualConcern
         from fans join user_info on fans.userid = user_info.userid where fans.fansid = #{userId,jdbcType=BIGINT}
     </select>
 
