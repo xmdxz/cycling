@@ -67,7 +67,6 @@ public class CustomerRealm extends AuthorizingRealm {
         String token = (String) authenticationToken.getCredentials();
         DecodedJWT tokenInfo = JWTUtils.getTokenInfo(token);
         String id = tokenInfo.getClaim("id").asString();
-        System.out.println(Long.valueOf(id));
         User user = userService.findById(Long.valueOf(id));
         if (ObjectUtils.isEmpty(user)) {
             throw new AuthenticationException("认证失败！");
