@@ -185,6 +185,30 @@ public class RedisUtil {
     }
 
     /**
+     *
+     * @author qyz
+     * @param key
+     * @return: java.lang.Object
+     */
+    public static Object hKeys(String key)
+    {
+
+        return  redisTemplate.opsForHash().keys(key);
+    }
+
+
+    /**
+     *
+     * @author qyz
+     * @param key
+     * @return: java.lang.Object
+     */
+    public static Object hValues(String key)
+    {
+
+        return  redisTemplate.opsForHash().values(key);
+    }
+    /**
      * 获取hashKey对应的所有键值
      *
      * @param key 键
@@ -402,6 +426,22 @@ public class RedisUtil {
         }
     }
 
+    /**
+     *
+     * @author qyz
+     * @param key
+     * @return: long
+     */
+    public static long hGetHsetSize(String key)
+    {
+
+        try {
+            return redisTemplate.opsForHash().size(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
     /**
      * 移除值为value的
      *
