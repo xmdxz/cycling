@@ -1,42 +1,40 @@
 package com.cycling.service;
 
-import com.cycling.pojo.Dynamic;
+import com.cycling.pojo.Comment;
 import com.cycling.utils.ResponseResult;
 
 /**
- * @InterfaceName: DynamicService
+ * @InterfaceName: CommentService
  * @Author: RainGoal
  * @Description: TODO
- * @Date: 2021/10/29 4:43 下午
+ * @Date: 2021/10/29 7:19 下午
  */
 
-public interface DynamicService {
-
-    ResponseResult addDynamic(Dynamic dynamic);
-
+public interface CommentService {
     /**
-     * 查找用户动态
+     * 根据动态查询评论
      *
      * @param id
      * @author RainGoal
      * @return: com.cycling.utils.ResponseResult
      */
-    ResponseResult findDynamicByUser(String id);
+    ResponseResult findCommentByDynamic(Integer id);
 
     /**
-     * 根据地区获取动态
+     * 添加评论
      *
-     * @param area
+     * @param comment
      * @author RainGoal
      * @return: com.cycling.utils.ResponseResult
      */
-    ResponseResult findDynamicByArea(String area);
+    ResponseResult addComment(Comment comment);
 
     /**
-     * 获取推荐动态
+     * 删除评论
      *
+     * @param id
      * @author RainGoal
      * @return: com.cycling.utils.ResponseResult
      */
-    ResponseResult findDynamicRecommend();
+    ResponseResult deleteComment(Integer id);
 }
