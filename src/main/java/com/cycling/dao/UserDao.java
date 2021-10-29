@@ -30,6 +30,14 @@ public interface UserDao {
     User selectByPhone(String phone);
 
     /**
+     * 根据id查询
+     *
+     * @param  id
+     * @return User
+     */
+    User selectById(Long id);
+
+    /**
      * 根据id主键查询
      *
      * @param id id主键

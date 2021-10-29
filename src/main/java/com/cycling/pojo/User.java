@@ -23,7 +23,7 @@ public class User {
     /**
      * 自增主键
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 密码

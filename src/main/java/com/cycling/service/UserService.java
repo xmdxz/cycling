@@ -17,6 +17,13 @@ public interface UserService {
      */
     User findByPhone(String phone);
 
+    /**
+     * 根据id查找用户登录信息
+     * @param id
+     * @return user
+     */
+    User findById(Long id);
+
 
     /**
      * 根据id主键查询

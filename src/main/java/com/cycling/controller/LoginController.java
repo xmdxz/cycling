@@ -45,7 +45,7 @@ public class LoginController {
         map.put("id", String.valueOf(user.getId()));
         String token = JWTUtils.getToken(map, currentTimeMillis);
         //把该账号登陆时间以用户名作为key存入redis 有效时间为30分钟用来刷新token和踢出用户
-        RedisUtil.set(phone, currentTimeMillis, JWTUtils.REFRESH_TOKEN_EXPIRE_TIME);
+        RedisUtil.set(String.valueOf(user.getId()), currentTimeMillis, JWTUtils.REFRESH_TOKEN_EXPIRE_TIME);
         //把token放在响应header 用于用户之后访问携带
         response.setHeader("Authorization", token);
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
