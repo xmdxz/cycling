@@ -38,26 +38,28 @@ public class RedisCache<K,V> implements Cache<K,V> {
 
     @Override
     public V remove(K k) throws CacheException {
-        return null;
+        Object v = RedisUtil.hget(this.cacheName, k.toString());
+        RedisUtil.del(this.cacheName,k.toString());
+        return (V) v;
     }
 
     @Override
     public void clear() throws CacheException {
-
+        RedisUtil.del(this.cacheName);
     }
 
     @Override
     public int size() {
-        return 0;
+        return (int) RedisUtil.hGetHsetSize(this.cacheName);
     }
 
     @Override
     public Set<K> keys() {
-        return null;
+        return (Set<K>) RedisUtil.hKeys(this.cacheName);
     }
 
     @Override
     public Collection<V> values() {
-        return null;
+        return (Collection<V>) RedisUtil.hValues(this.cacheName);
     }
 }
