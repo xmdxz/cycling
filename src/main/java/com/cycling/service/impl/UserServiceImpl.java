@@ -3,6 +3,7 @@ package com.cycling.service.impl;
 import com.cycling.dao.UserDao;
 import com.cycling.pojo.User;
 import com.cycling.pojo.UserInfo;
+import com.cycling.pojo.dto.FansAndFocusDto;
 import com.cycling.pojo.dto.OwnInfo;
 import com.cycling.pojo.dto.RelatedCount;
 import com.cycling.service.UserService;
@@ -10,6 +11,7 @@ import com.cycling.utils.RequestUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @ClassName: UserServiceImpl
@@ -27,6 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByPhone(String phone) {
+
         return userDao.selectByPhone(phone);
     }
 
@@ -53,6 +56,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateInfo(UserInfo userInfo) {
         return userDao.updateInfo(RequestUtil.getUserId(), userInfo);
+    }
+
+    @Override
+    public List<FansAndFocusDto> getFansAndSimpleUserInfo() {
+        return userDao.getFansAndSimpleUserInfo(1L);
+    }
+
+    @Override
+    public List<FansAndFocusDto> getFocusedAndSimpleUserInfo() {
+        return userDao.getFocusedAndSimpleUserInfo(RequestUtil.getUserId());
+    }
+
+    @Override
+    public List<Integer> getFocusedUserId() {
+        return userDao.getFocusedUserId(RequestUtil.getUserId());
     }
 
 

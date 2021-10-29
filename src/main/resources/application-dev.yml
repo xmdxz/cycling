@@ -23,9 +23,19 @@ mybatis:
   type-aliases-package: com.cycling.pojo,com.cycling.view
   configuration:
     map-underscore-to-camel-case: on
+
+
 # 控制台日志设置
 logging:
   config: classpath:config/log4j2.xml
   level:
     com.cycling.dao: debug
     org.springframework.web: debug
+
+# pagehelper
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
+  params: countSql
+  helper-dialect: mysql
+

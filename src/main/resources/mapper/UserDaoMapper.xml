@@ -5,7 +5,6 @@
 
 
 <mapper namespace="com.cycling.dao.UserDao">
-
     <resultMap id="userInfo" type="com.cycling.pojo.UserInfo">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="userid" property="userId" jdbcType="BIGINT"/>
@@ -33,8 +32,13 @@
     <sql id="ownInfo">
         avatar,level,sex,exp,instroduction
     </sql>
+
     <sql id="BASE_COLUMN_INSERT">
         id,password,method,wx_openid,qq_openid,phone,create_time,last_login_time,salt
+    </sql>
+
+    <sql id="fansAndFocus">
+        avatar,username,sex,introduction
     </sql>
     <select id="selectByPhone" resultType="com.cycling.pojo.User">
         select
@@ -54,7 +58,7 @@
         select
         <include refid="userInfo">
         </include>,(select phone from user where id = #{id,jdbcType=BIGINT}) as phone
-        from user_info where userid =  #{id,jdbcType=BIGINT}
+        from user_info where userid = #{id,jdbcType=BIGINT}
     </select>
 
     <select id="getMyInfo" resultMap="ownInfo">
@@ -65,47 +69,72 @@
     </select>
 
     <select id="getRelatedCount" resultType="com.cycling.pojo.dto.RelatedCount">
-        select
-            (select count(id) from fans where userid = #{id,jdbcType=BIGINT}) as fansCount,
-            (select count(id) from fans where fansid = #{id,jdbcType=BIGINT}) as focusCount,
-            praisedCount,
-            visitorCount from user_info where userid = #{id,jdbcType=BIGINT}
+        select (select count(id) from fans where userid = #{id,jdbcType=BIGINT}) as fansCount,
+               (select count(id) from fans where fansid = #{id,jdbcType=BIGINT}) as focusCount,
+               praisedCount,
+               visitorCount
+        from user_info
+        where userid = #{id,jdbcType=BIGINT}
     </select>
 
     <update id="updateInfo">
         update user_info
-            <set>
-                <if test="username != null">
-                    username = #{userInfo.username,jdbcType=VARCHAR},
-                </if>
-                <if test="sex != null">
-                    sex = #{userInfo.sex,jdbcType=INTEGER},
-                </if>
-                <if test="height != null">
-                    height = #{userInfo.height,jdbcType=FLOAT},
-                </if>
-                <if test="weight != null">
-                    weight = #{userInfo.weight,jdbcType=FLOAT},
-                </if>
-                <if test="birthday != null">
-                    birthday = #{userInfo.birthday,jdbcType=DATE},
-                </if>
-                <if test="address != null">
-                    address = #{userInfo.address,jdbcType=VARCHAR},
-                </if>
-                <if test="avatar != null">
-                    avatar = #{userInfo.avatar,jdbcType=VARCHAR},
-                </if>
-                <if test = "introduction != null">
-                    introduction = #{userInfo.introduction,jdbcType=VARCHAR},
-                </if>
-                <if test="level != null">
-                    level = #{userInfo.level,jdbcType=INTEGER},
-                </if>
-                <if test="exp != null">
-                    exp  = #{userInfo.exp,jdbcType=BIGINT},
-                </if>
-            </set>
+        <set>
+            <if test="username != null">
+                username = #{userInfo.username,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{userInfo.sex,jdbcType=INTEGER},
+            </if>
+            <if test="height != null">
+                height = #{userInfo.height,jdbcType=FLOAT},
+            </if>
+            <if test="weight != null">
+                weight = #{userInfo.weight,jdbcType=FLOAT},
+            </if>
+            <if test="birthday != null">
+                birthday = #{userInfo.birthday,jdbcType=DATE},
+            </if>
+            <if test="address != null">
+                address = #{userInfo.address,jdbcType=VARCHAR},
+            </if>
+            <if test="avatar != null">
+                avatar = #{userInfo.avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="introduction != null">
+                introduction = #{userInfo.introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="level != null">
+                level = #{userInfo.level,jdbcType=INTEGER},
+            </if>
+            <if test="exp != null">
+                exp = #{userInfo.exp,jdbcType=BIGINT},
+            </if>
+        </set>
         where userid = #{id,jdbcType=INTEGER}
     </update>
+
+    <select id="getFansAndSimpleUserInfo" resultType="com.cycling.pojo.dto.FansAndFocusDto">
+        select fansid as relatedUserId,
+        <include refid="fansAndFocus">
+        </include>,
+        (select count(child.id) from fans as child where child.userid = fans.fansid and child.fansid =
+        #{userId,jdbcType=BIGINT}) as mutualConcern
+        from fans join user_info on fans.fansid = user_info.userid where fans.userid = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <select id="getFocusedAndSimpleUserInfo" resultType="com.cycling.pojo.dto.FansAndFocusDto">
+        select fans.userid as relatedUserId,
+        <include refid="fansAndFocus">
+        </include>,
+        (select count(child.id) from fans as child where child.fansid = fans.userid and child.userid =
+        #{userId,jdbcType=BIGINT}) as mutualConcern
+        from fans join user_info on fans.userid = user_info.userid where fans.fansid = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <select id="getFocusedUserId" resultType="java.lang.Integer">
+        select fans.userid
+        from fans
+        where fans.fansid = #{userId,jdbcType=BIGINT}
+    </select>
 </mapper>

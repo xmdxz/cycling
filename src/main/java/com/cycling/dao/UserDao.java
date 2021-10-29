@@ -72,13 +72,15 @@ public interface UserDao {
 
     /**
      * 获取某用户的粉丝
+     *
      * @param userId userid
      * @return list
      */
-    List<FansAndFocusDto> getFansAndSimpleUserInfo(Long userId);
+    List<FansAndFocusDto> getFansAndSimpleUserInfo(@Param(value = "userId") Long userId);
 
     /**
      * 获取某用户的关注
+     *
      * @param userId userid
      * @return list
      */
@@ -86,10 +88,10 @@ public interface UserDao {
 
     /**
      * 获取某用户的关注的id
+     *
      * @param userId userid
      * @return list
      */
     List<Integer> getFocusedUserId(Long userId);
-
 
 }

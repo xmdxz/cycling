@@ -1,46 +1,33 @@
 package com.cycling.pojo;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.sql.Timestamp;
-
 /**
- * @ClassName: Comment
+ * @ClassName: Topic
  * @Author: RainGoal
  * @Description: TODO
- * @Date: 2021/10/22 6:13 下午
+ * @Date: 2021/10/29 10:43 上午
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Comment {
+public class Topic {
     /**
-     * 评论id
+     * 话题id
      */
     private Integer id;
 
     /**
-     * 动态id
+     * 话题名称
      */
-    private Integer dynamicId;
+    private String topicName;
 
     /**
-     * 用户id
+     * 发布人id
      */
     private Integer userId;
-
-    /**
-     * 评论内容
-     */
-    private String content;
-
-    /**
-     * 评论时间
-     */
-    private Timestamp time;
 }
