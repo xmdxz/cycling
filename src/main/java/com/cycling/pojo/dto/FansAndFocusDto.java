@@ -28,6 +28,9 @@ public class FansAndFocusDto {
 
     private String introduction;
 
-
+    /**
+     * 互相关注
+     */
+    private Integer mutualConcern;
 
 }
