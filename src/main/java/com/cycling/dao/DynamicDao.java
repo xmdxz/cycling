@@ -2,6 +2,7 @@ package com.cycling.dao;
 
 import com.cycling.pojo.Dynamic;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @Description: TODO
  * @Date: 2021/10/20 4:26 下午
  */
-
+@Repository
 public interface DynamicDao {
     /**
      * 插入动态
@@ -38,18 +39,16 @@ public interface DynamicDao {
      * @author RainGoal
      * @return: java.util.List<com.cycling.pojo.Dynamic>
      */
-    List<Dynamic> findDynamicByUser(@Param("id") String id, @Param("page") int page, @Param("num") int num);
+    List<Dynamic> findDynamicByUser(@Param("id") String id);
 
     /**
-     * 根据账户获取关注的人的动态
+     * 根据账户id获取关注的人的动态
      *
      * @param username
-     * @param page
-     * @param num
      * @author RainGoal
      * @return: java.util.List<com.cycling.pojo.Dynamic>
      */
-    List<Dynamic> findDynamicByAttention(String username, int page, int num);
+    List<Dynamic> findDynamicByAttention(@Param("id") String id);
 
     /**
      * 根据地区获取推荐的动态
@@ -60,17 +59,15 @@ public interface DynamicDao {
      * @author RainGoal
      * @return: java.util.List<com.cycling.pojo.Dynamic>
      */
-    List<Dynamic> findDynamicByArea(@Param("area") String area, @Param("page") int page, @Param("num") int num);
+    List<Dynamic> findDynamicByArea(@Param("area") String area);
 
     /**
      * 获取推荐的动态
      *
-     * @param page
-     * @param num
      * @author RainGoal
      * @return: java.util.List<com.cycling.pojo.Dynamic>
      */
-    List<Dynamic> findDynamicRecommend(int page, int num);
+    List<Dynamic> findDynamicRecommend();
 
 
 }

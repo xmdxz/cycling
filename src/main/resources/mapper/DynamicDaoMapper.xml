@@ -33,7 +33,7 @@
         select
         <include refid="dynamicFiled"></include>
         from dynamic
-        where id = #{id} limit #{page},#{num};
+        where id = #{id}
     </select>
     <!--根据关注查询动态-->
     <select id="findDynamicByAttention" resultMap="dynamic">
@@ -44,6 +44,11 @@
         select
         <include refid="dynamicFiled"></include>
         from dynamic
-        where position = #{area} limit #{page},#{num}
+        where position = #{area}
+    </select>
+    <select id="findDynamicRecommend" resultType="com.cycling.pojo.Dynamic">
+        select
+        <include refid="dynamicFiled"></include>
+        from dynamic
     </select>
 </mapper>
