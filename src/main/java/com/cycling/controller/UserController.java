@@ -29,37 +29,47 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "/getUserInfo")
-    public ResponseResult getUserInfo(){
+    public ResponseResult getUserInfo() {
         UserInfo userInfo = userService.selectUserInfoById();
         return isEmpty(userInfo);
     }
 
     @GetMapping(value = "/getOwnInfo")
-    public ResponseResult getOwnInfo(){
+    public ResponseResult getOwnInfo() {
         OwnInfo ownInfo = userService.getMyInfo();
         return isEmpty(ownInfo);
     }
 
     @GetMapping(value = "/getRelatedCount")
-    public ResponseResult getRelatedCount(){
+    public ResponseResult getRelatedCount() {
         final RelatedCount relatedCount = userService.getRelatedCount();
         return isEmpty(relatedCount);
     }
 
     @PutMapping(value = "/updateInfo")
-    public ResponseResult updateInfo(UserInfo userInfo){
+    public ResponseResult updateInfo(UserInfo userInfo) {
         return isEmpty(isUpdate(userService.updateInfo(userInfo)));
     }
 
-    private <T> ResponseResult isEmpty(T parameter){
-        if (ObjectUtils.isEmpty(parameter)){
+    @GetMapping(value = "/getFansAndSimple")
+    public ResponseResult getFansAndSimple() {
+        return isEmpty(userService.getFansAndSimpleUserInfo());
+    }
+
+    @GetMapping(value = "/getFocusedAndSimple")
+    public ResponseResult getFocusedAndSimple() {
+        return isEmpty(userService.getFocusedAndSimpleUserInfo());
+    }
+
+    private <T> ResponseResult isEmpty(T parameter) {
+        if (ObjectUtils.isEmpty(parameter)) {
             return ResponseResult.error("获取用户信息失败,请重试", HttpStatus.NOT_FOUND.value());
         }
         return ResponseResult.ok(parameter);
     }
 
-    private ResponseResult isUpdate(int parameter){
-        if (parameter <= 0){
+    private ResponseResult isUpdate(int parameter) {
+        if (parameter <= 0) {
             return ResponseResult.error("更新失败,服务器错误", HttpStatus.INTERNAL_SERVER_ERROR.value());
         }
         return ResponseResult.ok(parameter);

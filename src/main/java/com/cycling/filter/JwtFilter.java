@@ -169,6 +169,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                         //判断jwt——token的登录时间是否与redis存的RefreshToken中的登录时间一致
                         //如果一致返回true 放行不一致说明账号被顶了 返回false 登录失败 拦截
                         if (currentTimeMillisRedis.equals(currentTime)) {
+                            final HttpServletRequest servletRequest = (HttpServletRequest) request;
+                            servletRequest.setAttribute("id", id);
                             return true;
                         }
                     }

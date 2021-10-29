@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 28/10/2021 11:19:49
+ Date: 29/10/2021 16:33:48
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,7 @@ CREATE TABLE `active`  (
   `contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `ischeck` int NULL DEFAULT NULL COMMENT '0为未审核，1为审核',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of active
@@ -48,7 +48,7 @@ CREATE TABLE `active_user`  (
   `activeid` bigint NULL DEFAULT NULL,
   `userid` bigint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of active_user
@@ -63,7 +63,7 @@ CREATE TABLE `attend_activity`  (
   `userid` bigint NULL DEFAULT NULL,
   `activityid` bigint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of attend_activity
@@ -78,7 +78,7 @@ CREATE TABLE `collection`  (
   `userid` bigint NULL DEFAULT NULL,
   `dynamicid` bigint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of collection
@@ -95,7 +95,7 @@ CREATE TABLE `comment`  (
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `time` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of comment
@@ -113,7 +113,7 @@ CREATE TABLE `dynamic`  (
   `author_id` bigint NULL DEFAULT NULL,
   `position` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of dynamic
@@ -128,7 +128,7 @@ CREATE TABLE `dynamic_image`  (
   `image_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `dynamic_id` bigint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of dynamic_image
@@ -144,7 +144,7 @@ CREATE TABLE `dynamic_topic`  (
   `user_id` bigint NULL DEFAULT NULL,
   `topic_id` bigint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of dynamic_topic
@@ -156,14 +156,17 @@ CREATE TABLE `dynamic_topic`  (
 DROP TABLE IF EXISTS `fans`;
 CREATE TABLE `fans`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `userid` bigint NULL DEFAULT NULL,
-  `fansid` bigint NULL DEFAULT NULL,
+  `userid` bigint NOT NULL,
+  `fansid` bigint NOT NULL,
+  `focusTime` timestamp(0) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of fans
 -- ----------------------------
+INSERT INTO `fans` VALUES (1, 1, 2, '2020-09-23 00:00:00');
+INSERT INTO `fans` VALUES (2, 2, 1, '2010-09-23 00:00:00');
 
 -- ----------------------------
 -- Table structure for map
@@ -179,7 +182,7 @@ CREATE TABLE `map`  (
   `synopsis` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of map
@@ -198,7 +201,7 @@ CREATE TABLE `ride`  (
   `avg_speed` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `mapid` bigint NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of ride
@@ -212,7 +215,7 @@ CREATE TABLE `topic`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `topicName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of topic
@@ -239,6 +242,7 @@ CREATE TABLE `user`  (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES (1, '1597d20d1a17bd4ba28d042988ae1f12', 'U8JS07lT', NULL, NULL, NULL, '13994722068', NULL, NULL);
+INSERT INTO `user` VALUES (2, '1597d20d1a17bd4ba28d042988ae1f12', 'U8JS07lT', NULL, NULL, NULL, '12345678932', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for user_info
@@ -246,7 +250,7 @@ INSERT INTO `user` VALUES (1, '1597d20d1a17bd4ba28d042988ae1f12', 'U8JS07lT', NU
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `userid` bigint NULL DEFAULT NULL,
+  `userid` bigint NOT NULL,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `sex` int NULL DEFAULT NULL COMMENT '性别，0代表女，1代表男',
   `height` float NULL DEFAULT NULL,
@@ -255,13 +259,17 @@ CREATE TABLE `user_info`  (
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像外链',
   `introduction` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `level` int NULL DEFAULT NULL,
-  `exp` bigint NULL DEFAULT NULL,
+  `level` int NULL DEFAULT 1,
+  `exp` bigint NULL DEFAULT 0,
+  `praisedCount` bigint UNSIGNED NULL DEFAULT 0,
+  `visitorCount` bigint UNSIGNED NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_info
 -- ----------------------------
+INSERT INTO `user_info` VALUES (1, 1, 'xpdxz', 1, 125, 178, '2000-09-23', '山西省临汾市乡宁县', '/usr/local/1.jpg', '个人简介', 1, 1, 0, 1);
+INSERT INTO `user_info` VALUES (4, 2, '张三', 0, 123, 160, '2000-09-23', '12', '12', '1', 1, 0, 0, 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

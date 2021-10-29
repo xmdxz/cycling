@@ -1,12 +1,12 @@
-package com.cycling.Exception;
+package com.cycling.expection;
 
 import com.cycling.utils.ResponseResult;
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,49 +20,56 @@ import javax.servlet.http.HttpServletRequest;
  * @Version: V1.0
  */
 
-@ControllerAdvice//处理全局异常
-@ResponseBody
+@RestControllerAdvice
 public class MyGlobalExceptionHandle {
 
 
-    /*
-       捕捉所有的shiro异常  全部shiro的异常
+    /**
+     * 捕获全部shiro异常
+     *
+     * @param e 异常
+     * @return
      */
     @ExceptionHandler(ShiroException.class)
-    public ResponseResult handleShiroException(ShiroException e){
+    public ResponseResult handleShiroException(ShiroException e) {
 
-        return ResponseResult.error("无权访问:" + e.getMessage(),401);
+        return ResponseResult.error("无权访问:" + e.getMessage(), 401);
 
     }
 
-    /*
-       捕捉没有该有的权限抛出的shiro异常  没有授权的异常
+    /**
+     * 捕捉没有该有的权限抛出的shiro异常  没有授权的异常
+     *
+     * @param e e
+     * @return response
      */
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseResult handleUnauthorizedException(UnauthorizedException e)
-    {
-        return ResponseResult.error("无权访问:当前用户没有此请求所需权限("+e.getMessage()+")",401);
+    public ResponseResult handleUnauthorizedException(UnauthorizedException e) {
+        return ResponseResult.error("无权访问:当前用户没有此请求所需权限(" + e.getMessage() + ")", 401);
     }
 
 
-    /*
-      捕捉以游客访问时无权访问的异常 没有认证登录异常
+    /**
+     * 捕捉以游客访问时无权访问的异常 没有认证登录异常
+     *
+     * @param e
+     * @return
      */
     @ExceptionHandler(UnauthenticatedException.class)
     public ResponseResult handle401(UnauthenticatedException e) {
-        return ResponseResult.error( "无权访问:当前用户没有登录，请先登录"+e.getMessage(),401);
+        return ResponseResult.error("无权访问:当前用户没有登录，请先登录" + e.getMessage(), HttpStatus.UNAUTHORIZED.value());
     }
 
 
-    /*
+    /**
      * 捕捉404异常  没有发现页面的异常
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseResult handle(NoHandlerFoundException e) {
-        return ResponseResult.error(e.getMessage(),404);
+        return ResponseResult.error(e.getMessage(), HttpStatus.NOT_FOUND.value());
     }
 
-    /*
+    /**
      * 捕捉其他所有异常
      */
     @ExceptionHandler(Exception.class)

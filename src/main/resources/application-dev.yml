@@ -34,7 +34,8 @@ logging:
 
 # pagehelper
 pagehelper:
-  helpr-dialect: mysql
   reasonable: true
   support-methods-arguments: true
   params: countSql
+  helper-dialect: mysql
+
