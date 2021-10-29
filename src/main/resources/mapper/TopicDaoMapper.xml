@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cycling.dao.TopicDao">
+    <resultMap id="topic" type="com.cycling.pojo.Topic">
+        <id column="id" property="id"></id>
+        <result column="topic_name" property="topicName"></result>
+        <result column="user_id" property="userId"></result>
+    </resultMap>
+    <sql id="topicFiled">
+        id
+        ,topic_name,user_id
+    </sql>
+    <!--查询所有话题-->
+    <select id="findAll" resultType="topic">
+        select
+        <include refid="topicFiled"></include>
+        from topic
+    </select>
+</mapper>
