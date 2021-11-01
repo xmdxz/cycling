@@ -1,7 +1,7 @@
 package com.cycling.config;
 
 
-import com.cycling.cache.IncludShiroFields;
+import com.cycling.cache.IncludeShiroFields;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -12,17 +12,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.apache.shiro.subject.SimplePrincipalCollection;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.cache.RedisCacheConfiguration;
-import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.*;
-
-import java.time.Duration;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * @Author xpdxz
@@ -38,6 +34,7 @@ public class RedisConfig {
 
     /**
      * 配置redis模板
+     *
      * @param redisConnectionFactory
      * @return
      */
@@ -59,7 +56,7 @@ public class RedisConfig {
         //序列化想要的shiro字段
         String[] needSerialize = {"realmPrincipals"};
         //添加要过滤的实例化的类
-        objectMapper.addMixIn(SimplePrincipalCollection.class, IncludShiroFields.class);
+        objectMapper.addMixIn(SimplePrincipalCollection.class, IncludeShiroFields.class);
         //添加过滤器，和过滤的字段
         objectMapper.setFilters(new SimpleFilterProvider().addFilter("shiroFilter", SimpleBeanPropertyFilter.filterOutAllExcept(needSerialize)));
         // 此项必须配置，否则会报java.lang.ClassCastException: java.util.LinkedHashMap cannot be cast to XXX
