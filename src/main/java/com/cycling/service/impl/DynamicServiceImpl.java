@@ -22,6 +22,10 @@ public class DynamicServiceImpl implements DynamicService {
 
     @Override
     public ResponseResult addDynamic(Dynamic dynamic) {
+        int i = dynamicDao.addDynamic(dynamic);
+        if (i != 0) {
+            
+        }
         return null;
     }
 

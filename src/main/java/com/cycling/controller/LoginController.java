@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @RestController
 public class LoginController {
-
+    
     @Resource
     private UserService userService;
 
