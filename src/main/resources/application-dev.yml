@@ -16,6 +16,8 @@ spring:
     host: localhost
     port: 6379
     timeout: 10000
+    cacheTimeout: 1800
+    specialTimeout: 1800
 
 # 设置mybatis相关配置
 mybatis:

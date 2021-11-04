@@ -1,7 +1,7 @@
 package com.cycling.config;
 
 
-import com.cycling.cache.IncludShiroFields;
+import com.cycling.cache.IncludeShiroFields;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -12,15 +12,20 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.*;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 
@@ -36,8 +41,16 @@ import java.time.Duration;
 @EnableCaching
 public class RedisConfig {
 
+    @Value("${spring.redis.cacheTimeout}")
+    private long cacheTimeout;
+
+    @Value("${spring.redis.specialTimeout}")
+    private long specialCacheTimeout;
+
+
     /**
      * 配置redis模板
+     *
      * @param redisConnectionFactory
      * @return
      */
@@ -47,7 +60,7 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(redisConnectionFactory);
 
         // 使用Jackson2JsonRedisSerialize序列化
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         // 用ObjectMapper对象序列化
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
@@ -59,7 +72,7 @@ public class RedisConfig {
         //序列化想要的shiro字段
         String[] needSerialize = {"realmPrincipals"};
         //添加要过滤的实例化的类
-        objectMapper.addMixIn(SimplePrincipalCollection.class, IncludShiroFields.class);
+        objectMapper.addMixIn(SimplePrincipalCollection.class, IncludeShiroFields.class);
         //添加过滤器，和过滤的字段
         objectMapper.setFilters(new SimpleFilterProvider().addFilter("shiroFilter", SimpleBeanPropertyFilter.filterOutAllExcept(needSerialize)));
         // 此项必须配置，否则会报java.lang.ClassCastException: java.util.LinkedHashMap cannot be cast to XXX
@@ -73,6 +86,20 @@ public class RedisConfig {
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
 
         return redisTemplate;
+    }
+
+    @Bean
+    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+        return new RedisCacheManager(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory),
+                redisCacheConfiguration(cacheTimeout));
+    }
+
+    private RedisCacheConfiguration redisCacheConfiguration(long cacheTimeout) {
+        return RedisCacheConfiguration.defaultCacheConfig()
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                .entryTtl(Duration.ofSeconds(cacheTimeout));
+
     }
 
 
