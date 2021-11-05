@@ -15,5 +15,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/dynamic")
 public class DynamicController {
     
-
 }
