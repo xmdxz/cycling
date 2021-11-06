@@ -5,7 +5,6 @@ import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -40,18 +39,18 @@ public class JWTUtils {
      * @date 2021/9/29 12:04 下午
      * @return: java.lang.String
      */
-    public static String getToken(Map<String, String> map,Long currentTime) {
+    public static String getToken(Map<String, String> map, Long currentTime) {
 
-        //设置Token的过期时间为五分钟
-        Date token_expire_time=new Date(currentTime+EXPIRE_TIME);
+        //设置Token的过期时间为七天
+        Date token_expire_time = new Date(currentTime + EXPIRE_TIME);
         //用jwt创造token
         JWTCreator.Builder builder = JWT.create();
         //用map遍历传入token的数据
         map.forEach((k, v) -> {
-            builder.withClaim(k,v);
+            builder.withClaim(k, v);
         });
-        String token=builder
-                .withClaim("currentTime",currentTime)
+        String token = builder
+                .withClaim("currentTime", currentTime)
                 .withExpiresAt(token_expire_time)
                 .sign(Algorithm.HMAC256(SIGN));
         return token;
@@ -66,7 +65,7 @@ public class JWTUtils {
      * @date 2021/9/29 11:57 上午
      * @return: void
      */
-    public static boolean verify (String token) throws Exception{
+    public static boolean verify(String token) throws Exception {
 
         DecodedJWT v = JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
         return true;
