@@ -24,7 +24,7 @@ public class JWTUtils {
     /**
      * token过期时间
      */
-    private static final long EXPIRE_TIME = 60 * 60 * 24 * 7;
+    private static final long EXPIRE_TIME = 60 * 60 * 24 * 7 * 1000;
 
     /**
      * 刷新时间

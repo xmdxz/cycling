@@ -23,6 +23,7 @@
         <result column="level" property="level" jdbcType="INTEGER"/>
         <result column="exp" property="exp" jdbcType="BIGINT"/>
         <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="userInfo">
@@ -30,7 +31,7 @@
     </sql>
 
     <sql id="ownInfo">
-        avatar,level,sex,exp,instroduction
+        avatar,level,sex,exp,introduction,username
     </sql>
 
     <sql id="BASE_COLUMN_INSERT">
@@ -115,21 +116,29 @@
     </update>
 
     <select id="getFansAndSimpleUserInfo" resultType="com.cycling.pojo.dto.FansAndFocusDto">
-        select fansid as relatedUserId,
+        select fansid as relatedUserId,fans.id as id,
         <include refid="fansAndFocus">
         </include>,
         (select count(child.id) from fans as child where child.userid = fans.fansid and child.fansid =
         #{userId,jdbcType=BIGINT}) as mutualConcern
         from fans join user_info on fans.fansid = user_info.userid where fans.userid = #{userId,jdbcType=BIGINT}
+        <if test="minId != null">
+            and fans.id &lt; #{minId,jdbcType=BIGINT}
+        </if>
+        order by fans.focusTime desc,fans.id desc limit #{num,jdbcType=INTEGER}
     </select>
 
     <select id="getFocusedAndSimpleUserInfo" resultType="com.cycling.pojo.dto.FansAndFocusDto">
-        select fans.userid as relatedUserId,
+        select fans.userid as relatedUserId,fans.id as id,
         <include refid="fansAndFocus">
         </include>,
         (select count(child.id) from fans as child where child.fansid = fans.userid and child.userid =
         #{userId,jdbcType=BIGINT}) as mutualConcern
         from fans join user_info on fans.userid = user_info.userid where fans.fansid = #{userId,jdbcType=BIGINT}
+        <if test="minId != null">
+            and fans.id &lt; #{minId,jdbcType=BIGINT}
+        </if>
+        order by fans.focusTime desc,fans.id desc limit #{num,jdbcType=INTEGER}
     </select>
 
     <select id="getFocusedUserId" resultType="java.lang.Integer">
@@ -137,4 +146,15 @@
         from fans
         where fans.fansid = #{userId,jdbcType=BIGINT}
     </select>
+
+    <delete id="cancelFocused">
+        delete
+        from fans
+        where fans.id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="focus">
+        insert into fans(userid, fansid, focustime)
+        values (#{focusedUserId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{time,jdbcType=TIMESTAMP})
+    </insert>
 </mapper>

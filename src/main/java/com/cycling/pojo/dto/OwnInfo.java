@@ -27,4 +27,6 @@ public class OwnInfo {
 
     private String introduction;
 
+    private String username;
+
 }
