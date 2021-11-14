@@ -37,7 +37,6 @@ public class QiNiuUtil {
     }
 
     public static String getAuth() {
-        System.out.println(accesskey);
         Auth auth = Auth.create(accesskey, secretkey);
         String token = auth.uploadToken(bucket);
         return token;

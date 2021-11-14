@@ -12,7 +12,7 @@ import com.cycling.utils.ResponseResult;
 
 public interface DynamicService {
 
-    ResponseResult addDynamic(Dynamic dynamic);
+    ResponseResult addDynamic(Dynamic dynamic, String topic, String... imgName);
 
     /**
      * 查找用户动态

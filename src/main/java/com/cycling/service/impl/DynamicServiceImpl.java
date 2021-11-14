@@ -21,7 +21,7 @@ public class DynamicServiceImpl implements DynamicService {
     private DynamicDao dynamicDao;
 
     @Override
-    public ResponseResult addDynamic(Dynamic dynamic) {
+    public ResponseResult addDynamic(Dynamic dynamic, String topic, String... imgName) {
         int i = dynamicDao.addDynamic(dynamic);
         if (i != 0) {
             
