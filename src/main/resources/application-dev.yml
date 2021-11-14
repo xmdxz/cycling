@@ -11,6 +11,9 @@ spring:
     url: jdbc:mysql://localhost:3306/cycling?useUnicode=true&characterEncoding=utf8
     username: root
     password: 123456
+  devtools:
+    restart:
+      additional-paths: src/main/java
   #redis配置
   redis:
     host: localhost
