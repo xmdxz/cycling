@@ -12,7 +12,8 @@ import com.cycling.utils.ResponseResult;
 
 public interface DynamicService {
 
-    ResponseResult addDynamic(Dynamic dynamic, String topic, String... imgName);
+
+    ResponseResult addDynamic(Dynamic dynamic, Long[] topicId, String[] imgName);
 
     /**
      * 查找用户动态

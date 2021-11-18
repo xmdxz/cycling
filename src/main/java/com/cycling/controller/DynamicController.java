@@ -24,7 +24,7 @@ public class DynamicController {
     private DynamicService dynamicService;
 
     @PostMapping("publicDynamic")
-    public ResponseResult publicDynamic(Dynamic dynamic, String topic, String... imgName) {
-        return ResponseResult.ok();
+    public ResponseResult publicDynamic(Dynamic dynamic, Long[] topicId, String[] imgName) {
+        return dynamicService.addDynamic(dynamic, topicId, imgName);
     }
 }
