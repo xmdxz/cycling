@@ -90,7 +90,7 @@ public interface UserService {
      * @param id
      * @return
      */
-    Integer cancelFocused(Long id);
+    Integer cancelFocused(Long id, Long focusedUserId);
 
     /**
      * 关注

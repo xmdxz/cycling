@@ -69,7 +69,7 @@ public interface UserDao {
      * @param userInfo userINfo
      * @return int
      */
-    int updateInfo(@Param(value = "id") Long id, @Param(value = "userInfo") UserInfo userInfo);
+    int updateInfo(UserInfo userInfo);
 
     /**
      * 获取某用户的粉丝
@@ -100,12 +100,21 @@ public interface UserDao {
     List<Integer> getFocusedUserId(Long userId);
 
     /**
-     * 取消关注
+     * 取消关注通过id
      *
      * @param id
      * @return
      */
-    Integer cancelFocused(Long id);
+    Integer cancelFocusedById(Long id);
+
+    /**
+     * 取消关注通过user，双id
+     *
+     * @param userId
+     * @param focusedUserId
+     * @return
+     */
+    Integer cancelFocusedByUser(@Param(value = "userId") Long userId, @Param(value = "focusedUserId") Long focusedUserId);
 
     /**
      * 关注
