@@ -7,6 +7,7 @@ import com.cycling.service.UserService;
 import com.cycling.utils.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ import javax.annotation.Resource;
 @Api(tags = "用户信息模块")
 @RestController
 @RequestMapping(value = "/user")
+@Log4j2
 public class UserController {
 
     @Resource
@@ -63,7 +65,7 @@ public class UserController {
 
     @PutMapping(value = "/focus")
     public ResponseResult focus(Long focusedUserId) {
-        System.out.println(focusedUserId);
+        log.warn(focusedUserId);
         return ResponseResult.ok(userService.focus(focusedUserId));
     }
 

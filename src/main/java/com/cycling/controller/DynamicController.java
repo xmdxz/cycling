@@ -3,6 +3,7 @@ package com.cycling.controller;
 import com.cycling.pojo.Dynamic;
 import com.cycling.service.DynamicService;
 import com.cycling.utils.ResponseResult;
+import io.swagger.annotations.Api;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Log4j2
 @RequestMapping("/dynamic")
+@Api(tags = "动态相关模块")
 public class DynamicController {
 
     @Autowired
