@@ -56,7 +56,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int updateInfo(UserInfo userInfo) {
-        return userDao.updateInfo(RequestUtil.getUserId(), userInfo);
+        userInfo.setUserId(RequestUtil.getUserId());
+        return userDao.updateInfo(userInfo);
     }
 
     @Override
@@ -75,8 +76,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer cancelFocused(Long id) {
-        return userDao.cancelFocused(id);
+    public Integer cancelFocused(Long id, Long focusedUserId) {
+        if (id != null) {
+            return userDao.cancelFocusedById(id);
+        }
+        return userDao.cancelFocusedByUser(RequestUtil.getUserId(), focusedUserId);
     }
 
     @Override

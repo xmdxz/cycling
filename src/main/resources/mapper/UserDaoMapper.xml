@@ -82,37 +82,37 @@
         update user_info
         <set>
             <if test="username != null">
-                username = #{userInfo.username,jdbcType=VARCHAR},
+                username = #{username,jdbcType=VARCHAR},
             </if>
             <if test="sex != null">
-                sex = #{userInfo.sex,jdbcType=INTEGER},
+                sex = #{sex,jdbcType=INTEGER},
             </if>
             <if test="height != null">
-                height = #{userInfo.height,jdbcType=FLOAT},
+                height = #{height,jdbcType=FLOAT},
             </if>
             <if test="weight != null">
-                weight = #{userInfo.weight,jdbcType=FLOAT},
+                weight = #{weight,jdbcType=FLOAT},
             </if>
             <if test="birthday != null">
-                birthday = #{userInfo.birthday,jdbcType=DATE},
+                birthday = #{birthday,jdbcType=DATE},
             </if>
             <if test="address != null">
-                address = #{userInfo.address,jdbcType=VARCHAR},
+                address = #{address,jdbcType=VARCHAR},
             </if>
             <if test="avatar != null">
-                avatar = #{userInfo.avatar,jdbcType=VARCHAR},
+                avatar = #{avatar,jdbcType=VARCHAR},
             </if>
             <if test="introduction != null">
-                introduction = #{userInfo.introduction,jdbcType=VARCHAR},
+                introduction = #{introduction,jdbcType=VARCHAR},
             </if>
             <if test="level != null">
-                level = #{userInfo.level,jdbcType=INTEGER},
+                level = #{level,jdbcType=INTEGER},
             </if>
             <if test="exp != null">
-                exp = #{userInfo.exp,jdbcType=BIGINT},
+                exp = #{exp,jdbcType=BIGINT},
             </if>
         </set>
-        where userid = #{id,jdbcType=INTEGER}
+        where userid = #{userId,jdbcType=BIGINT}
     </update>
 
     <select id="getFansAndSimpleUserInfo" resultType="com.cycling.pojo.dto.FansAndFocusDto">
@@ -147,7 +147,7 @@
         where fans.fansid = #{userId,jdbcType=BIGINT}
     </select>
 
-    <delete id="cancelFocused">
+    <delete id="cancelFocusedById">
         delete
         from fans
         where fans.id = #{id,jdbcType=BIGINT}
@@ -157,4 +157,11 @@
         insert into fans(userid, fansid, focustime)
         values (#{focusedUserId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{time,jdbcType=TIMESTAMP})
     </insert>
+
+    <delete id="cancelFocusedByUser">
+        delete
+        from fans
+        where userid = #{focusedUserId,jdbcType=BIGINT}
+          and fansid = #{userId,jdbcType=BIGINT}
+    </delete>
 </mapper>

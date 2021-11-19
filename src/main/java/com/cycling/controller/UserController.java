@@ -47,7 +47,8 @@ public class UserController {
     }
 
     @PutMapping(value = "/updateInfo")
-    public ResponseResult updateInfo(UserInfo userInfo) {
+    public ResponseResult updateInfo(@RequestBody UserInfo userInfo) {
+        System.out.println(userInfo);
         return ResponseResult.ok(userService.updateInfo(userInfo));
     }
 
@@ -63,13 +64,12 @@ public class UserController {
 
     @PutMapping(value = "/focus")
     public ResponseResult focus(Long focusedUserId) {
-        System.out.println(focusedUserId);
         return ResponseResult.ok(userService.focus(focusedUserId));
     }
 
     @DeleteMapping(value = "/cancelFocused")
-    public ResponseResult cancelFocused(Long id) {
-        return ResponseResult.ok(userService.cancelFocused(id));
+    public ResponseResult cancelFocused(@RequestParam(value = "id", required = false) Long id, @RequestParam(value = "focusedUserId", required = false) Long focusedUserId) {
+        return ResponseResult.ok(userService.cancelFocused(id, focusedUserId));
     }
 
     private <T> ResponseResult isEmpty(T parameter) {
