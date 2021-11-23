@@ -43,6 +43,7 @@ public class MyShiroConfig {
         //设置放行和不放行的资源
         Map<String, String> sourceMap = new LinkedHashMap<>();
         //放行的资源
+        sourceMap.put("/ride/prepare", "anon");
         sourceMap.put("/login", "anon");
         //anon代表可以匿名访问的过滤器的名字缩写是shiro自带的
         sourceMap.put("/", "anon");
