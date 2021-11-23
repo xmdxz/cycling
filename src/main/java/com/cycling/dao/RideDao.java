@@ -3,6 +3,7 @@ package com.cycling.dao;
 import com.cycling.pojo.Ride;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -20,7 +21,14 @@ public interface RideDao {
      * @param id
      * @return int
      */
-    int deleteRide(Integer id);
+    int deleteRideById(Integer id);
+
+    /**
+     * 根据userId删除用户的全部骑行记录
+     * @param id
+     * @return
+     */
+    int deleteRideByUserId(Integer id);
 
     /**
      * 根据骑行记录的id查询单条记录
@@ -34,7 +42,7 @@ public interface RideDao {
      * @param userId
      * @return
      */
-    List<Ride> selectRideByUserId(Integer userId);
+    ArrayList<Ride> selectRideByUserId(Integer userId);
 
 
 }

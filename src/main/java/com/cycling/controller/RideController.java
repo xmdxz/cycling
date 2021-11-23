@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+
 @RestController
 @Log4j2
 @RequestMapping("/ride")
@@ -19,9 +23,10 @@ public class RideController {
 
     @GetMapping("/prepare")
     public ResponseResult prepareRide(){
-        Ride ride = rideService.selectRideById(1);
-        System.out.println(ride);
-        ResponseResult result = ResponseResult.ok(ride);
+        ArrayList<Ride> rides = rideService.selectRideByUserId(1);
+        System.out.println(rides);
+
+        ResponseResult result = ResponseResult.ok(rides);
         return result;
     }
 
