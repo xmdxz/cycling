@@ -3,27 +3,29 @@ package com.cycling.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
- * @ClassName: Topic
+ * @ClassName: DynamicImage
  * @Author: RainGoal
  * @Description: TODO
- * @Date: 2021/10/29 10:43 上午
+ * @Date: 2021/11/15 5:27 下午
  */
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class Topic {
+@Data
+public class DynamicImage {
     /**
-     * 话题id
+     * 图片id
      */
     private Long id;
 
     /**
-     * 话题名称
+     * 图片地址
      */
-    private String topicName;
+    private String imageUrl;
 
+    /**
+     * 动态id
+     */
+    private Long dynamicId;
 }

@@ -18,6 +18,8 @@ import lombok.ToString;
 @ToString
 public class FansAndFocusDto {
 
+    private Long id;
+
     private Long relatedUserId;
 
     private String avatar;

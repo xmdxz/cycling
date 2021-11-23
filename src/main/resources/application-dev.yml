@@ -11,6 +11,9 @@ spring:
     url: jdbc:mysql://localhost:3306/cycling?useUnicode=true&characterEncoding=utf8
     username: root
     password: 123456
+  devtools:
+    restart:
+      additional-paths: src/main/java
   #redis配置
   redis:
     host: localhost
@@ -41,3 +44,8 @@ pagehelper:
   params: countSql
   helper-dialect: mysql
 
+# 七牛云配置信息
+qiniu:
+  accesskey: WHJC6cwE8ILlGR87eQEHlcGum1JeCmoto69dyWDs
+  secretkey: p7VXA_fw7HLqUCUzVV5rZKeKjG4EhU8JP2ZTWq1m
+  bucket: qixing-imgs

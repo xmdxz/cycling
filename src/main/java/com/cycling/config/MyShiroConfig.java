@@ -49,6 +49,9 @@ public class MyShiroConfig {
         sourceMap.put("/", "anon");
         //释放swagger资源
         sourceMap.put("/swagger-ui/index.html", "anon");
+        sourceMap.put("/swagger-ui/**.js", "anon");
+        sourceMap.put("/swagger-ui/**.css", "anon");
+        sourceMap.put("/swagger-ui/**.png", "anon");
         sourceMap.put("/swagger-resources/**/**", "anon");
         sourceMap.put("/v2/api-docs", "anon");
         sourceMap.put("/webjars/springfox-swagger-ui/**", "anon");

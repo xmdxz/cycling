@@ -23,6 +23,7 @@ public interface UserService {
 
     /**
      * 根据id查找用户登录信息
+     *
      * @param id
      * @return user
      */
@@ -63,16 +64,18 @@ public interface UserService {
     /**
      * 获取某用户的粉丝
      *
-     * @return list
+     * @param minId
+     * @param num
+     * @return
      */
-    List<FansAndFocusDto> getFansAndSimpleUserInfo();
+    List<FansAndFocusDto> getFansAndSimpleUserInfo(Long minId, Integer num);
 
     /**
      * 获取某用户的关注
      *
      * @return list
      */
-    List<FansAndFocusDto> getFocusedAndSimpleUserInfo();
+    List<FansAndFocusDto> getFocusedAndSimpleUserInfo(Long minId, Integer num);
 
     /**
      * 获取某用户的关注的id
@@ -80,5 +83,21 @@ public interface UserService {
      * @return list
      */
     List<Integer> getFocusedUserId();
+
+    /**
+     * 取消关注
+     *
+     * @param id
+     * @return
+     */
+    Integer cancelFocused(Long id, Long focusedUserId);
+
+    /**
+     * 关注
+     *
+     * @param focusedUserId
+     * @return
+     */
+    Integer focus(Long focusedUserId);
 
 }

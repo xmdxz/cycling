@@ -5,12 +5,11 @@ import com.cycling.pojo.dto.OwnInfo;
 import com.cycling.pojo.dto.RelatedCount;
 import com.cycling.service.UserService;
 import com.cycling.utils.ResponseResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -21,13 +20,16 @@ import javax.annotation.Resource;
  * @Date 2021/10/28 12:06
  */
 
+@Api(tags = "用户信息模块")
 @RestController
 @RequestMapping(value = "/user")
+@Log4j2
 public class UserController {
 
     @Resource
     private UserService userService;
 
+    @ApiOperation("获取用户全部信息")
     @GetMapping(value = "/getUserInfo")
     public ResponseResult getUserInfo() {
         UserInfo userInfo = userService.selectUserInfoById();
@@ -47,22 +49,33 @@ public class UserController {
     }
 
     @PutMapping(value = "/updateInfo")
-    public ResponseResult updateInfo(UserInfo userInfo) {
-        return isEmpty(isUpdate(userService.updateInfo(userInfo)));
+    public ResponseResult updateInfo(@RequestBody UserInfo userInfo) {
+        System.out.println(userInfo);
+        return ResponseResult.ok(userService.updateInfo(userInfo));
     }
 
     @GetMapping(value = "/getFansAndSimple")
-    public ResponseResult getFansAndSimple() {
-        return isEmpty(userService.getFansAndSimpleUserInfo());
+    public ResponseResult getFansAndSimple(Long minId, Integer num) {
+        return isEmpty(userService.getFansAndSimpleUserInfo(minId, num));
     }
 
     @GetMapping(value = "/getFocusedAndSimple")
-    public ResponseResult getFocusedAndSimple() {
-        return isEmpty(userService.getFocusedAndSimpleUserInfo());
+    public ResponseResult getFocusedAndSimple(Long minId, Integer num) {
+        return isEmpty(userService.getFocusedAndSimpleUserInfo(minId, num));
+    }
+
+    @PutMapping(value = "/focus")
+    public ResponseResult focus(Long focusedUserId) {
+        return ResponseResult.ok(userService.focus(focusedUserId));
+    }
+
+    @DeleteMapping(value = "/cancelFocused")
+    public ResponseResult cancelFocused(@RequestParam(value = "id", required = false) Long id, @RequestParam(value = "focusedUserId", required = false) Long focusedUserId) {
+        return ResponseResult.ok(userService.cancelFocused(id, focusedUserId));
     }
 
     private <T> ResponseResult isEmpty(T parameter) {
-        if (ObjectUtils.isEmpty(parameter)) {
+        if (parameter == null) {
             return ResponseResult.error("获取用户信息失败,请重试", HttpStatus.NOT_FOUND.value());
         }
         return ResponseResult.ok(parameter);

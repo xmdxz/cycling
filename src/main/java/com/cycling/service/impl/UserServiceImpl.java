@@ -11,6 +11,7 @@ import com.cycling.utils.RequestUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -55,22 +56,36 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int updateInfo(UserInfo userInfo) {
-        return userDao.updateInfo(RequestUtil.getUserId(), userInfo);
+        userInfo.setUserId(RequestUtil.getUserId());
+        return userDao.updateInfo(userInfo);
     }
 
     @Override
-    public List<FansAndFocusDto> getFansAndSimpleUserInfo() {
-        return userDao.getFansAndSimpleUserInfo(1L);
+    public List<FansAndFocusDto> getFansAndSimpleUserInfo(Long minId, Integer num) {
+        return userDao.getFansAndSimpleUserInfo(RequestUtil.getUserId(), minId, num);
     }
 
     @Override
-    public List<FansAndFocusDto> getFocusedAndSimpleUserInfo() {
-        return userDao.getFocusedAndSimpleUserInfo(RequestUtil.getUserId());
+    public List<FansAndFocusDto> getFocusedAndSimpleUserInfo(Long minId, Integer num) {
+        return userDao.getFocusedAndSimpleUserInfo(RequestUtil.getUserId(), minId, num);
     }
 
     @Override
     public List<Integer> getFocusedUserId() {
         return userDao.getFocusedUserId(RequestUtil.getUserId());
+    }
+
+    @Override
+    public Integer cancelFocused(Long id, Long focusedUserId) {
+        if (id != null) {
+            return userDao.cancelFocusedById(id);
+        }
+        return userDao.cancelFocusedByUser(RequestUtil.getUserId(), focusedUserId);
+    }
+
+    @Override
+    public Integer focus(Long focusedUserId) {
+        return userDao.focus(RequestUtil.getUserId(), focusedUserId, new Timestamp(System.currentTimeMillis()));
     }
 
 

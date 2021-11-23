@@ -21,7 +21,7 @@ public interface DynamicDao {
      * @author RainGoal
      * @return: int
      */
-    int addDynamic(Dynamic dynamic);
+    Long addDynamic(Dynamic dynamic);
 
     /**
      * 删除动态

@@ -8,6 +8,7 @@ import com.cycling.pojo.dto.RelatedCount;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public interface UserDao {
     /**
      * 根据id查询
      *
-     * @param  id
+     * @param id
      * @return User
      */
     User selectById(Long id);
@@ -68,23 +69,27 @@ public interface UserDao {
      * @param userInfo userINfo
      * @return int
      */
-    int updateInfo(@Param(value = "id") Long id, @Param(value = "userInfo") UserInfo userInfo);
+    int updateInfo(UserInfo userInfo);
 
     /**
      * 获取某用户的粉丝
      *
-     * @param userId userid
-     * @return list
+     * @param userId
+     * @param minId
+     * @param num
+     * @return
      */
-    List<FansAndFocusDto> getFansAndSimpleUserInfo(@Param(value = "userId") Long userId);
+    List<FansAndFocusDto> getFansAndSimpleUserInfo(@Param(value = "userId") Long userId, @Param("minId") Long minId, @Param("num") Integer num);
 
     /**
      * 获取某用户的关注
      *
-     * @param userId userid
-     * @return list
+     * @param userId
+     * @param minId
+     * @param num
+     * @return
      */
-    List<FansAndFocusDto> getFocusedAndSimpleUserInfo(Long userId);
+    List<FansAndFocusDto> getFocusedAndSimpleUserInfo(@Param(value = "userId") Long userId, @Param("minId") Long minId, @Param("num") Integer num);
 
     /**
      * 获取某用户的关注的id
@@ -93,5 +98,32 @@ public interface UserDao {
      * @return list
      */
     List<Integer> getFocusedUserId(Long userId);
+
+    /**
+     * 取消关注通过id
+     *
+     * @param id
+     * @return
+     */
+    Integer cancelFocusedById(Long id);
+
+    /**
+     * 取消关注通过user，双id
+     *
+     * @param userId
+     * @param focusedUserId
+     * @return
+     */
+    Integer cancelFocusedByUser(@Param(value = "userId") Long userId, @Param(value = "focusedUserId") Long focusedUserId);
+
+    /**
+     * 关注
+     *
+     * @param userId
+     * @param focusedUserId
+     * @param time
+     * @return
+     */
+    Integer focus(@Param("userId") Long userId, @Param("focusedUserId") Long focusedUserId, @Param("time") Timestamp time);
 
 }
