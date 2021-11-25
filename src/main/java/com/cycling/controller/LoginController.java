@@ -49,7 +49,7 @@ public class LoginController {
         //把token放在响应header 用于用户之后访问携带
         response.setHeader("Authorization", token);
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
-        return ResponseResult.ok();
+        return ResponseResult.ok("登录成功");
     }
 
 
