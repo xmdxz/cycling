@@ -7,6 +7,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class TopicController {
     private TopicService topicService;
 
     @GetMapping("findAll")
-    public ResponseResult findAll(Integer pageNum, Integer pageSize) {
+    public ResponseResult findAll(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
         List<Topic> all = topicService.findAll(pageNum, pageSize);
         return ResponseResult.ok(all);
     }
@@ -36,5 +37,5 @@ public class TopicController {
         List<Topic> topics = topicService.findByTopicName(topicName, pageNum, pageSize);
         return ResponseResult.ok(topics);
     }
-    
+
 }

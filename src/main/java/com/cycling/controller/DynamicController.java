@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/dynamic")
 @Api(tags = "动态相关模块")
 public class DynamicController {
-
+    
     @Autowired
     private DynamicService dynamicService;
 

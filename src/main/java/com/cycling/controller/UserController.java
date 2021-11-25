@@ -28,7 +28,7 @@ public class UserController {
 
     @Resource
     private UserService userService;
-
+    
     @ApiOperation("获取用户全部信息")
     @GetMapping(value = "/getUserInfo")
     public ResponseResult getUserInfo() {
