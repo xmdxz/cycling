@@ -6,6 +6,7 @@ import com.cycling.service.UserService;
 import com.cycling.utils.JWTUtils;
 import com.cycling.utils.RedisUtil;
 import com.cycling.utils.ResponseResult;
+import lombok.extern.log4j.Log4j2;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,14 +25,15 @@ import java.util.Map;
  * @Version: V1.0
  */
 @RestController
+@Log4j2
 public class LoginController {
-    
+
     @Resource
     private UserService userService;
 
     @PostMapping("/login")
     public ResponseResult login(String phone, String password, HttpServletResponse response) {
-
+        log.warn("phone={}", phone);
         User user = userService.findByPhone(phone);
         if (user != null && !(user.getPassword().equals(new Md5Hash(password, user.getSalt(), 1024).toHex()))) {
             return ResponseResult.error("密码错误", HttpStatus.FORBIDDEN.value());
