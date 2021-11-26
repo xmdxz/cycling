@@ -1,11 +1,13 @@
 package com.cycling.service.impl;
 
 import com.cycling.dao.UserDao;
+import com.cycling.enumerate.PersonDataType;
 import com.cycling.pojo.User;
 import com.cycling.pojo.UserInfo;
 import com.cycling.pojo.dto.FansAndFocusDto;
 import com.cycling.pojo.dto.OwnInfo;
 import com.cycling.pojo.dto.RelatedCount;
+import com.cycling.pojo.dto.SimpleDynamicOrActive;
 import com.cycling.service.UserService;
 import com.cycling.utils.RequestUtil;
 import org.springframework.stereotype.Service;
@@ -86,6 +88,42 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer focus(Long focusedUserId) {
         return userDao.focus(RequestUtil.getUserId(), focusedUserId, new Timestamp(System.currentTimeMillis()));
+    }
+
+    @Override
+    public List<SimpleDynamicOrActive> getPublish(Long minId, Integer num, PersonDataType type) {
+        List<SimpleDynamicOrActive> result;
+        Long userId = RequestUtil.getUserId();
+        switch (type) {
+            case DYNAMIC:
+                result = userDao.getPublishOfDynamic(userId, minId, num);
+                break;
+            case ACTIVE:
+                result = userDao.getPublishOfActive(userId, minId, num);
+                break;
+            default:
+                result = null;
+                break;
+        }
+        return result;
+    }
+
+    @Override
+    public List<SimpleDynamicOrActive> getCollect(Long minId, Integer num, PersonDataType type) {
+        List<SimpleDynamicOrActive> result;
+        Long userId = RequestUtil.getUserId();
+        switch (type) {
+            case DYNAMIC:
+                result = userDao.getCollectOfDynamic(userId, minId, num);
+                break;
+            case ACTIVE:
+                result = userDao.getCollectOfActive(userId, minId, num);
+                break;
+            default:
+                result = null;
+                break;
+        }
+        return result;
     }
 
 
