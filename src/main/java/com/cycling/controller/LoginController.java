@@ -31,12 +31,12 @@ public class LoginController {
     @Resource
     private UserService userService;
 
-    private String code;
 
     @PostMapping("/login")
     public ResponseResult login(String phone, String password, HttpServletResponse response) {
 
         User user = userService.findByPhone(phone);
+        String code= (String) RedisUtil.get(phone);
         if (code==null&(user != null && !(user.getPassword().equals(new Md5Hash(password, user.getSalt(), 1024).toHex())))) {
             return ResponseResult.error("密码错误", HttpStatus.FORBIDDEN.value());
         }
@@ -63,10 +63,11 @@ public class LoginController {
 
 
     @GetMapping("/code")
-    public ResponseResult getCode()
+    public ResponseResult getCode(String phone)
     {
-        this.code= CodeUtil.getCode(6);
-        return ResponseResult.ok(this.code);
+        String code=CodeUtil.getCode(6);
+        RedisUtil.set(phone,code,CodeUtil.CODE_EXPIRE_TIME);
+        return ResponseResult.ok(code);
     }
 }
 

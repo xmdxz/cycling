@@ -11,6 +11,8 @@ import java.util.Random;
  */
 public class CodeUtil {
 
+    //验证码过期实践
+    public static final long CODE_EXPIRE_TIME = 60 *  1000;
     /*
      * 生成随机验证码的静态方法
      */
