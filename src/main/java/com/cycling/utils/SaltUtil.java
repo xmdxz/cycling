@@ -28,6 +28,5 @@ public class SaltUtil {
 
         return salt.toString();
     }
-
 }
 

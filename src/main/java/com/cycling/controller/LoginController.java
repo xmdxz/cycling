@@ -3,11 +3,13 @@ package com.cycling.controller;
 
 import com.cycling.pojo.User;
 import com.cycling.service.UserService;
+import com.cycling.utils.CodeUtil;
 import com.cycling.utils.JWTUtils;
 import com.cycling.utils.RedisUtil;
 import com.cycling.utils.ResponseResult;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,14 +31,21 @@ public class LoginController {
     @Resource
     private UserService userService;
 
+    private String code;
+
     @PostMapping("/login")
     public ResponseResult login(String phone, String password, HttpServletResponse response) {
 
         User user = userService.findByPhone(phone);
-        if (user != null && !(user.getPassword().equals(new Md5Hash(password, user.getSalt(), 1024).toHex()))) {
+        if (code==null&(user != null && !(user.getPassword().equals(new Md5Hash(password, user.getSalt(), 1024).toHex())))) {
             return ResponseResult.error("密码错误", HttpStatus.FORBIDDEN.value());
-        } else if (user == null) {
-            return ResponseResult.error("该手机未注册", HttpStatus.FORBIDDEN.value());
+        }
+        else if(code!=null&(user != null && !(code.equals(password))))
+        {
+            return ResponseResult.error("验证码错误", HttpStatus.FORBIDDEN.value());
+        }
+        else if (user == null) {
+            return ResponseResult.error("该手机号未注册", HttpStatus.FORBIDDEN.value());
         }
         //当前登录时间
         long currentTimeMillis = System.currentTimeMillis();
@@ -53,5 +62,11 @@ public class LoginController {
     }
 
 
+    @GetMapping("/code")
+    public ResponseResult getCode()
+    {
+        this.code= CodeUtil.getCode(6);
+        return ResponseResult.ok(this.code);
+    }
 }
 
