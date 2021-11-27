@@ -61,7 +61,7 @@ public class LoginController {
     public ResponseResult login2(String phone, String password, HttpServletResponse response) {
         log.warn("phone={}", phone);
         User user = userService.findByPhone(phone);
-        String code=null;
+        String code = null;
         if (RedisUtil.hasKey(phone)) {
             code = (String) RedisUtil.get(phone);
         }
@@ -83,6 +83,7 @@ public class LoginController {
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
         return ResponseResult.ok("登录成功");
     }
+
     @GetMapping("/code")
     public ResponseResult getCode(String phone) {
         String code = CodeUtil.getCode(6);

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -48,6 +49,7 @@ public class DynamicServiceImpl implements DynamicService {
         Long i = dynamicDao.addDynamic(dynamic);
         log.warn("插入成功的动态id为：{}", dynamic.getId());
         if (i != 0) {
+            HashMap<Object, Object> map = new HashMap<>();
             DynamicTopic dynamicTopic = new DynamicTopic();
             dynamicTopic.setDynamicId(dynamic.getId());
             //遍历动态所有包含的话题id
