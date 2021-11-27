@@ -1,6 +1,6 @@
 package com.cycling.controller;
 
-import com.cycling.pojo.Dynamic;
+import com.cycling.pojo.dto.AddDynamicPojo;
 import com.cycling.service.DynamicService;
 import com.cycling.utils.ResponseResult;
 import io.swagger.annotations.Api;
@@ -21,12 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/dynamic")
 @Api(tags = "动态相关模块")
 public class DynamicController {
-    
+
     @Autowired
     private DynamicService dynamicService;
 
     @PostMapping("publicDynamic")
-    public ResponseResult publicDynamic(Dynamic dynamic, Long[] topicId, String[] imgName) {
-        return dynamicService.addDynamic(dynamic, topicId, imgName);
+    public ResponseResult publicDynamic(AddDynamicPojo addDynamicPojo) {
+        log.warn(addDynamicPojo.toString());
+        return dynamicService.addDynamic(addDynamicPojo);
     }
 }

@@ -1,6 +1,6 @@
 package com.cycling.service;
 
-import com.cycling.pojo.Dynamic;
+import com.cycling.pojo.dto.AddDynamicPojo;
 import com.cycling.utils.ResponseResult;
 
 /**
@@ -13,7 +13,7 @@ import com.cycling.utils.ResponseResult;
 public interface DynamicService {
 
 
-    ResponseResult addDynamic(Dynamic dynamic, Long[] topicId, String[] imgName);
+    ResponseResult addDynamic(AddDynamicPojo addDynamicPojo);
 
     /**
      * 查找用户动态

@@ -17,7 +17,9 @@
         ,title,content,`time`,author_id,`position`
     </sql>
     <!--插入动态-->
-    <insert id="addDynamic" parameterType="com.cycling.pojo.Dynamic">
+    <insert id="addDynamic" parameterType="com.cycling.pojo.Dynamic"
+            useGeneratedKeys="true" keyProperty="id"
+    >
         insert into dynamic(title, content, time, author_id, position)
         values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{time,jdbcType=TIMESTAMP},
                 #{authorId,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR})
