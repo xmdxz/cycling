@@ -30,6 +30,14 @@
         id,userid,username,sex,height,weight,birthday,address,avatar,introduction
     </sql>
 
+    <sql id="dynamic">
+        dynamic.id as id,title,username,content as `body`,author_id as userId,dynamic.time as `time`,avatar
+    </sql>
+
+    <sql id="active">
+        active.id as id,title,username,synopsis as `body`,active.time as `time`,avatar
+    </sql>
+
     <sql id="ownInfo">
         avatar,level,sex,exp,introduction,username
     </sql>
@@ -164,4 +172,59 @@
         where userid = #{focusedUserId,jdbcType=BIGINT}
           and fansid = #{userId,jdbcType=BIGINT}
     </delete>
+
+
+    <select id="getPublishOfDynamic" resultType="com.cycling.pojo.dto.SimpleDynamicOrActive">
+        select
+        <include refid="dynamic">
+        </include>
+        from dynamic
+        join user_info on user_info.userid = dynamic.author_id
+        where dynamic.author_id = #{userId,jdbcType=BIGINT}
+        <if test="minId != null">
+            and dynamic.id &lt; #{minId,jdbcType=BIGINT}
+        </if>
+        order by dynamic.time desc
+        limit #{num,jdbcType=INTEGER}
+    </select>
+
+    <select id="getPublishOfActive" resultType="com.cycling.pojo.dto.SimpleDynamicOrActive">
+        select
+        <include refid="active">
+        </include>
+        from active join user_info on user_info.userid = active.authorid where active.authorid =
+        #{userId,jdbcType=BIGINT}
+        <if test="minId != null">
+            and active.id &lt; #{minId,jdbcType=BIGINT}
+        </if>
+        order by active.time desc
+        limit #{num,jdbcType=INTEGER}
+    </select>
+
+    <select id="getCollectOfDynamic" resultType="com.cycling.pojo.dto.SimpleDynamicOrActive">
+        select
+        <include refid="dynamic">
+        </include>
+        from dynamic join collection_dynamic on collection_dynamic.dynamic_id = dynamic.id join user_info on
+        user_info.userid = dynamic.author_id where collection_dynamic.userid = #{userId,jdbcType=BIGINT}
+        <if test="minId != null">
+            and collection_dynamic.id &lt; #{minId,jdbcType=BIGINT}
+        </if>
+        order by collection_dynamic.time desc
+        limit #{num,jdbcType=INTEGER}
+    </select>
+
+    <select id="getCollectOfActive" resultType="com.cycling.pojo.dto.SimpleDynamicOrActive">
+        select
+        <include refid="active">
+        </include>
+        from active join collection_active on active.id = collection_active.active_id
+        join user_info on active.authorid = user_info.userid
+        where collection_active.userid = #{userId,jdbcType=BIGINT}
+        <if test="minId != null">
+            and active.id &lt; #{minId,jdbcType=BIGINT}
+        </if>
+        order by collection_active.time desc
+        limit #{num,jdbcType=INTEGER}
+    </select>
 </mapper>

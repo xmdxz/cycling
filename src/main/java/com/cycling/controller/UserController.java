@@ -1,5 +1,6 @@
 package com.cycling.controller;
 
+import com.cycling.enumerate.PersonDataType;
 import com.cycling.pojo.UserInfo;
 import com.cycling.pojo.dto.OwnInfo;
 import com.cycling.pojo.dto.RelatedCount;
@@ -50,13 +51,22 @@ public class UserController {
 
     @PutMapping(value = "/updateInfo")
     public ResponseResult updateInfo(@RequestBody UserInfo userInfo) {
-        System.out.println(userInfo);
         return ResponseResult.ok(userService.updateInfo(userInfo));
     }
 
     @GetMapping(value = "/getFansAndSimple")
     public ResponseResult getFansAndSimple(Long minId, Integer num) {
         return isEmpty(userService.getFansAndSimpleUserInfo(minId, num));
+    }
+
+    @GetMapping(value = "/getPublish")
+    public ResponseResult getPublish(Long minId, Integer num, PersonDataType type) {
+        return isEmpty(userService.getPublish(minId, num, type));
+    }
+
+    @GetMapping(value = "/getCollect")
+    public ResponseResult getCollect(Long minId, Integer num, PersonDataType type) {
+        return isEmpty(userService.getCollect(minId, num, type));
     }
 
     @GetMapping(value = "/getFocusedAndSimple")
@@ -76,7 +86,7 @@ public class UserController {
 
     private <T> ResponseResult isEmpty(T parameter) {
         if (parameter == null) {
-            return ResponseResult.error("获取用户信息失败,请重试", HttpStatus.NOT_FOUND.value());
+            return ResponseResult.error("获取信息失败,请重试", HttpStatus.NOT_FOUND.value());
         }
         return ResponseResult.ok(parameter);
     }

@@ -1,10 +1,12 @@
 package com.cycling.service;
 
+import com.cycling.enumerate.PersonDataType;
 import com.cycling.pojo.User;
 import com.cycling.pojo.UserInfo;
 import com.cycling.pojo.dto.FansAndFocusDto;
 import com.cycling.pojo.dto.OwnInfo;
 import com.cycling.pojo.dto.RelatedCount;
+import com.cycling.pojo.dto.SimpleDynamicOrActive;
 
 import java.util.List;
 
@@ -99,5 +101,25 @@ public interface UserService {
      * @return
      */
     Integer focus(Long focusedUserId);
+
+    /**
+     * 获取个人发表
+     *
+     * @param minId
+     * @param num
+     * @param type
+     * @return
+     */
+    List<SimpleDynamicOrActive> getPublish(Long minId, Integer num, PersonDataType type);
+
+    /**
+     * 获取收藏
+     *
+     * @param minId
+     * @param num
+     * @param type
+     * @return
+     */
+    List<SimpleDynamicOrActive> getCollect(Long minId, Integer num, PersonDataType type);
 
 }

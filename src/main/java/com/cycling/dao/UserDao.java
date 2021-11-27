@@ -5,6 +5,7 @@ import com.cycling.pojo.UserInfo;
 import com.cycling.pojo.dto.FansAndFocusDto;
 import com.cycling.pojo.dto.OwnInfo;
 import com.cycling.pojo.dto.RelatedCount;
+import com.cycling.pojo.dto.SimpleDynamicOrActive;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -125,5 +126,47 @@ public interface UserDao {
      * @return
      */
     Integer focus(@Param("userId") Long userId, @Param("focusedUserId") Long focusedUserId, @Param("time") Timestamp time);
+
+    /**
+     * 获取个人发表的动态或活动
+     *
+     * @param userId
+     * @param minId
+     * @param num
+     * @param type
+     * @return
+     */
+    List<SimpleDynamicOrActive> getPublishOfDynamic(@Param("userId") Long userId, @Param(value = "minId") Long minId, @Param("num") Integer num);
+
+    /**
+     * 获取个人发表的活动
+     *
+     * @param userId
+     * @param minId
+     * @param num
+     * @return
+     */
+    List<SimpleDynamicOrActive> getPublishOfActive(@Param("userId") Long userId, @Param(value = "minId") Long minId, @Param("num") Integer num);
+
+    /**
+     * 收藏的动态或活动
+     *
+     * @param userId
+     * @param minId
+     * @param num
+     * @param type
+     * @return
+     */
+    List<SimpleDynamicOrActive> getCollectOfDynamic(@Param("userId") Long userId, @Param(value = "minId") Long minId, @Param("num") Integer num);
+
+    /**
+     * 获取收藏的活动
+     *
+     * @param userId
+     * @param minId
+     * @param num
+     * @return
+     */
+    List<SimpleDynamicOrActive> getCollectOfActive(@Param("userId") Long userId, @Param(value = "minId") Long minId, @Param("num") Integer num);
 
 }
