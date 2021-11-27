@@ -45,6 +45,7 @@ public class MyShiroConfig {
         //放行的资源
         sourceMap.put("/ride/prepare", "anon");
         sourceMap.put("/login", "anon");
+        sourceMap.put("/login2", "anon");
         sourceMap.put("/code", "anon");
         //anon代表可以匿名访问的过滤器的名字缩写是shiro自带的
         sourceMap.put("/", "anon");
