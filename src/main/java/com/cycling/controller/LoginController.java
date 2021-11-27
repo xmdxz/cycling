@@ -40,10 +40,12 @@ public class LoginController {
         if (RedisUtil.hasKey(phone)) {
              code = (String) RedisUtil.get(phone);
         }
+        System.out.println(code);
         if (code == null & (user != null && !(user.getPassword().equals(new Md5Hash(password, user.getSalt(), 1024).toHex())))) {
             return ResponseResult.error("密码错误", HttpStatus.FORBIDDEN.value());
         } else if (code != null & (user != null && !(code.equals(password)))) {
             code=null;
+            RedisUtil.del(phone);
             return ResponseResult.error("验证码错误", HttpStatus.FORBIDDEN.value());
         } else if (user == null) {
             return ResponseResult.error("该手机号未注册", HttpStatus.FORBIDDEN.value());
@@ -60,6 +62,7 @@ public class LoginController {
         response.setHeader("Authorization", token);
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
         code=null;
+        RedisUtil.del(phone);
         return ResponseResult.ok("登录成功");
     }
 
