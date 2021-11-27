@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @RestController
 public class LoginController {
-    
+
     @Resource
     private UserService userService;
 
@@ -36,15 +36,16 @@ public class LoginController {
     public ResponseResult login(String phone, String password, HttpServletResponse response) {
 
         User user = userService.findByPhone(phone);
-        String code= (String) RedisUtil.get(phone);
-        if (code==null&(user != null && !(user.getPassword().equals(new Md5Hash(password, user.getSalt(), 1024).toHex())))) {
+        String code=null;
+        if (RedisUtil.hasKey(phone)) {
+             code = (String) RedisUtil.get(phone);
+        }
+        if (code == null & (user != null && !(user.getPassword().equals(new Md5Hash(password, user.getSalt(), 1024).toHex())))) {
             return ResponseResult.error("密码错误", HttpStatus.FORBIDDEN.value());
-        }
-        else if(code!=null&(user != null && !(code.equals(password))))
-        {
+        } else if (code != null & (user != null && !(code.equals(password)))) {
+            code=null;
             return ResponseResult.error("验证码错误", HttpStatus.FORBIDDEN.value());
-        }
-        else if (user == null) {
+        } else if (user == null) {
             return ResponseResult.error("该手机号未注册", HttpStatus.FORBIDDEN.value());
         }
         //当前登录时间
@@ -58,15 +59,15 @@ public class LoginController {
         //把token放在响应header 用于用户之后访问携带
         response.setHeader("Authorization", token);
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
+        code=null;
         return ResponseResult.ok("登录成功");
     }
 
 
     @GetMapping("/code")
-    public ResponseResult getCode(String phone)
-    {
-        String code=CodeUtil.getCode(6);
-        RedisUtil.set(phone,code,CodeUtil.CODE_EXPIRE_TIME);
+    public ResponseResult getCode(String phone) {
+        String code = CodeUtil.getCode(6);
+        RedisUtil.set(phone, code, CodeUtil.CODE_EXPIRE_TIME);
         return ResponseResult.ok(code);
     }
 }
