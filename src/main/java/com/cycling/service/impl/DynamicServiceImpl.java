@@ -6,11 +6,15 @@ import com.cycling.dao.DynamicTopicDao;
 import com.cycling.pojo.Dynamic;
 import com.cycling.pojo.DynamicImage;
 import com.cycling.pojo.DynamicTopic;
+import com.cycling.pojo.dto.AddDynamicPojo;
 import com.cycling.service.DynamicService;
+import com.cycling.utils.RequestUtil;
 import com.cycling.utils.ResponseResult;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -20,6 +24,7 @@ import java.util.List;
  * @Date: 2021/10/29 5:13 下午
  */
 @Service
+@Log4j2
 public class DynamicServiceImpl implements DynamicService {
     @Autowired
     private DynamicDao dynamicDao;
@@ -31,19 +36,30 @@ public class DynamicServiceImpl implements DynamicService {
     private DynamicImageDao dynamicImageDao;
 
     @Override
-    public ResponseResult addDynamic(Dynamic dynamic, Long[] topicId, String[] imgName) {
+    public ResponseResult addDynamic(AddDynamicPojo addDynamicPojo) {
+        // 将接受到的添加动态实体封装到一个新的实体
+        Dynamic dynamic = new Dynamic();
+        dynamic.setTitle(addDynamicPojo.getTitle());
+        dynamic.setContent(addDynamicPojo.getContent());
+        dynamic.setAuthorId(RequestUtil.getUserId());
+        dynamic.setTime(new Timestamp(System.currentTimeMillis()));
+        dynamic.setPosition(addDynamicPojo.getPosition());
+        // 添加动态 获取动态
         Long i = dynamicDao.addDynamic(dynamic);
+        log.warn("插入成功的动态id为：{}", dynamic.getId());
         if (i != 0) {
             DynamicTopic dynamicTopic = new DynamicTopic();
-            dynamicTopic.setDynamicId(i);
+            dynamicTopic.setDynamicId(dynamic.getId());
             //遍历动态所有包含的话题id
+            Long[] topicId = addDynamicPojo.getTopicId();
             for (Long topic : topicId) {
                 dynamicTopic.setTopicId(topic);
                 dynamicTopicDao.addDynamicTopic(dynamicTopic);
             }
 
+            String[] imgName = addDynamicPojo.getImgName();
             DynamicImage dynamicImage = new DynamicImage();
-            dynamicImage.setDynamicId(i);
+            dynamicImage.setDynamicId(dynamic.getId());
             for (String imgUrl : imgName) {
                 dynamicImage.setImageUrl(imgUrl);
                 dynamicImageDao.insertImage(dynamicImage);
