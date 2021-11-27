@@ -44,14 +44,18 @@ public class LoginController {
         }
         System.out.println(code);
         if (code == null & (user != null && !(user.getPassword().equals(new Md5Hash(password, user.getSalt(), 1024).toHex())))) {
+            System.out.println("hh");
             return ResponseResult.error("密码错误", HttpStatus.FORBIDDEN.value());
         } else if (code != null & (user != null && !(code.equals(password)))) {
             code=null;
-            RedisUtil.del(phone);
+            if (RedisUtil.hasKey(phone)) {
+                RedisUtil.del(phone);
+            }
             return ResponseResult.error("验证码错误", HttpStatus.FORBIDDEN.value());
         } else if (user == null) {
             return ResponseResult.error("该手机号未注册", HttpStatus.FORBIDDEN.value());
         }
+        System.out.println("hhhh");
         //当前登录时间
         long currentTimeMillis = System.currentTimeMillis();
         //生成token
@@ -63,14 +67,17 @@ public class LoginController {
         //把token放在响应header 用于用户之后访问携带
         response.setHeader("Authorization", token);
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
-        code=null;
-        RedisUtil.del(phone);
+        System.out.println("hhh");
+        if (RedisUtil.hasKey(phone)) {
+            RedisUtil.del(phone);
+        }
         return ResponseResult.ok("登录成功");
     }
 
 
     @GetMapping("/code")
     public ResponseResult getCode(String phone) {
+        System.out.println(phone);
         String code = CodeUtil.getCode(6);
         RedisUtil.set(phone, code, CodeUtil.CODE_EXPIRE_TIME);
         return ResponseResult.ok(code);
