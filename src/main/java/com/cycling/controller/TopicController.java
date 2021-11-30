@@ -4,11 +4,9 @@ import com.cycling.pojo.Topic;
 import com.cycling.service.TopicService;
 import com.cycling.utils.ResponseResult;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,15 +25,27 @@ public class TopicController {
     private TopicService topicService;
 
     @GetMapping("findAll")
+    @ApiOperation("查找全部话题")
     public ResponseResult findAll(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
         List<Topic> all = topicService.findAll(pageNum, pageSize);
         return ResponseResult.ok(all);
     }
-
+    
     @GetMapping("findByTopicName")
+    @ApiOperation("通过话题名称搜索话题")
     public ResponseResult findByTopicName(String topicName, Integer pageNum, Integer pageSize) {
         List<Topic> topics = topicService.findByTopicName(topicName, pageNum, pageSize);
         return ResponseResult.ok(topics);
+    }
+
+    @PostMapping("addTopic")
+    @ApiOperation("添加话题")
+    public ResponseResult addTopic(Topic topic) {
+        int i = topicService.addTopic(topic);
+        if (i != 0) {
+            return ResponseResult.ok();
+        }
+        return ResponseResult.error("添加出错");
     }
 
 }

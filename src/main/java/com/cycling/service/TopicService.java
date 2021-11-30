@@ -27,4 +27,13 @@ public interface TopicService {
      * @return: com.cycling.utils.ResponseResult
      */
     List<Topic> findByTopicName(String topicName, Integer pageNum, Integer pageSize);
+
+    /**
+     * 添加话题
+     *
+     * @param topic
+     * @author RainGoal
+     * @return: int
+     */
+    int addTopic(Topic topic);
 }

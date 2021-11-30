@@ -32,4 +32,9 @@ public class TopicServiceImpl implements TopicService {
         PageHelper.startPage(pageNum, pageSize);
         return topicDao.findByTopicName(topicName);
     }
+
+    @Override
+    public int addTopic(Topic topic) {
+        return topicDao.addTopic(topic);
+    }
 }
