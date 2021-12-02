@@ -25,10 +25,8 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService {
-
     @Resource
     private UserDao userDao;
-
 
     @Override
     public User findByPhone(String phone) {

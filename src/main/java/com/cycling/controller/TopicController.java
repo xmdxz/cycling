@@ -30,7 +30,7 @@ public class TopicController {
         List<Topic> all = topicService.findAll(pageNum, pageSize);
         return ResponseResult.ok(all);
     }
-    
+
     @GetMapping("findByTopicName")
     @ApiOperation("通过话题名称搜索话题")
     public ResponseResult findByTopicName(String topicName, Integer pageNum, Integer pageSize) {
@@ -47,5 +47,6 @@ public class TopicController {
         }
         return ResponseResult.error("添加出错");
     }
+
 
 }

@@ -4,6 +4,7 @@ import com.cycling.pojo.dto.AddDynamicPojo;
 import com.cycling.service.DynamicService;
 import com.cycling.utils.ResponseResult;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +27,15 @@ public class DynamicController {
     private DynamicService dynamicService;
 
     @PostMapping("publicDynamic")
+    @ApiOperation("发布动态")
     public ResponseResult publicDynamic(AddDynamicPojo addDynamicPojo) {
         log.warn(addDynamicPojo.toString());
         return dynamicService.addDynamic(addDynamicPojo);
+    }
+
+    @PostMapping("getDynamicRecommend")
+    @ApiOperation("获取推荐获取动态")
+    public ResponseResult getDynamicByRecommend() {
+        return dynamicService.findDynamicRecommend();
     }
 }

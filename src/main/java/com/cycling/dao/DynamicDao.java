@@ -22,7 +22,7 @@ public interface DynamicDao {
      * @return: int
      */
     Long addDynamic(Dynamic dynamic);
-
+    
     /**
      * 删除动态
      *
