@@ -39,7 +39,7 @@ public class LoginController {
         log.warn("phone={}", phone);
         User user = userService.findByPhone(phone);
         if ((user != null && !(user.getPassword().equals(new Md5Hash(password, user.getSalt(), 1024).toHex())))) {
-            return ResponseResult.error("密码错误", HttpStatus.FORBIDDEN.value());
+            return ResponseResult.error("输入的密码错误", HttpStatus.FORBIDDEN.value());
         } else if (user == null) {
             return ResponseResult.error("该手机号未注册", HttpStatus.FORBIDDEN.value());
         }
