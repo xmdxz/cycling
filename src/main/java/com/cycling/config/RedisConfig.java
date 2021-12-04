@@ -46,7 +46,7 @@ public class RedisConfig {
 
     @Value("${spring.redis.specialTimeout}")
     private long specialCacheTimeout;
-
+    
 
     /**
      * 配置redis模板

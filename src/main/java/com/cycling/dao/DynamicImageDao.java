@@ -19,7 +19,7 @@ public interface DynamicImageDao {
      *
      * @param dynamicId
      * @author RainGoal
-     * @return: java.util.List<com.cycling.pojo.DynamicImage>
+     * @return: java.util.List<com.cycling.pojo.DynamicShowImage>
      */
     List<DynamicImage> findByDynamicId(@Param("dynamicId") Long dynamicId);
 

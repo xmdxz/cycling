@@ -21,7 +21,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  */
 @Configuration
 public class SwaggerConfig {
-
+    
     //为Swagger配置一个Docket实例
     @Bean
     public Docket restApi(Environment environment) {

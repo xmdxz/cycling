@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class RideServiceImpl implements RideService {
@@ -19,7 +18,7 @@ public class RideServiceImpl implements RideService {
     public Ride selectRideById(Integer id) {
         return rideDao.selectRideById(id);
     }
-
+    
     @Override
     public int insertRide(Ride ride) {
         int i = rideDao.insertRide(ride);

@@ -2,6 +2,7 @@ package com.cycling.controller;
 
 import com.cycling.utils.QiNiuUtil;
 import com.cycling.utils.ResponseResult;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/utils")
+@Api(tags = "工具模块")
 public class UtilController {
 
     /**
