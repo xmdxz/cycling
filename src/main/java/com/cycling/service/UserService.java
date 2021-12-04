@@ -122,4 +122,11 @@ public interface UserService {
      */
     List<SimpleDynamicOrActive> getCollect(Long minId, Integer num, PersonDataType type);
 
+    /**
+     * 用户注销
+     *
+     * @return
+     */
+    Integer accountCancellation();
+
 }

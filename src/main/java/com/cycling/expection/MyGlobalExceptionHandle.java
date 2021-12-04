@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 
 
 /**
@@ -67,6 +68,14 @@ public class MyGlobalExceptionHandle {
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseResult handle(NoHandlerFoundException e) {
         return ResponseResult.error(e.getMessage(), HttpStatus.NOT_FOUND.value());
+    }
+
+    @ExceptionHandler(SQLException.class)
+    public ResponseResult sqlHandler(SQLException sqlException, HttpServletRequest request) {
+        if ("DELETE".equalsIgnoreCase(request.getMethod())) {
+            return ResponseResult.error("删除失败", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        }
+        return ResponseResult.error("失败", HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 
     /**

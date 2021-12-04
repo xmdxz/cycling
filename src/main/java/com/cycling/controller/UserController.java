@@ -29,7 +29,7 @@ public class UserController {
 
     @Resource
     private UserService userService;
-    
+
     @ApiOperation("获取用户全部信息")
     @GetMapping(value = "/getUserInfo")
     public ResponseResult getUserInfo() {
@@ -82,6 +82,11 @@ public class UserController {
     @DeleteMapping(value = "/cancelFocused")
     public ResponseResult cancelFocused(@RequestParam(value = "id", required = false) Long id, @RequestParam(value = "focusedUserId", required = false) Long focusedUserId) {
         return ResponseResult.ok(userService.cancelFocused(id, focusedUserId));
+    }
+
+    @DeleteMapping(value = "/accountCancellation")
+    public ResponseResult accountCancellation() {
+        return ResponseResult.ok(userService.accountCancellation());
     }
 
     private <T> ResponseResult isEmpty(T parameter) {
