@@ -17,13 +17,14 @@
         <result column="avatar" property="avatar"></result>
         <result column="username" property="username"></result>
         <result column="level" property="level"></result>
+        <result column="title" property="title"></result>
         <result column="content" property="content"></result>
         <collection property="imgs" resultMap="imageMap">
         </collection>
     </resultMap>
 
     <resultMap id="imageMap" type="com.cycling.pojo.dto.DynamicShowImage">
-        <id property="imgId" column="id"></id>
+        <id property="imgId" column="image_id"></id>
         <result property="imageUrl" column="image_url"></result>
     </resultMap>
 
@@ -64,15 +65,17 @@
         where position = #{area}
     </select>
     <select id="findDynamicRecommend" resultMap="dynamicShow">
-        select user_info.avatar        as avatar,
+        select dynamic_id              as id,
+               user_info.avatar        as avatar,
                user_info.username      as username,
                user_info.level         as level,
+               dynamic.title           as title,
                dynamic.content         as content,
-               dynamic_image.id        as id,
+               dynamic_image.id        as image_id,
                dynamic_image.image_url as image_url
         from dynamic
                  join user_info on dynamic.author_id = user_info.userid
                  join dynamic_image on dynamic.id = dynamic_image.dynamic_id
-        group by
+
     </select>
 </mapper>

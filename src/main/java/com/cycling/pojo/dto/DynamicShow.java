@@ -24,6 +24,8 @@ public class DynamicShow {
 
     private String level;
 
+    private String title;
+
     private String content;
 
     private List<DynamicShowImage> imgs;
