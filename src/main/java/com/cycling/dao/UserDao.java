@@ -169,4 +169,19 @@ public interface UserDao {
      */
     List<SimpleDynamicOrActive> getCollectOfActive(@Param("userId") Long userId, @Param(value = "minId") Long minId, @Param("num") Integer num);
 
+    /**
+     * 用户注销
+     *
+     * @param userId
+     * @return
+     */
+    Integer deleteUser(Long userId);
+
+    /**
+     * 删除用户信息
+     *
+     * @param userId
+     * @return
+     */
+    Integer deleteUserInfo(Long userId);
 }
