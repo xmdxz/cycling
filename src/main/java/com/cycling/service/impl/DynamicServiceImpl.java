@@ -7,6 +7,7 @@ import com.cycling.pojo.Dynamic;
 import com.cycling.pojo.DynamicImage;
 import com.cycling.pojo.DynamicTopic;
 import com.cycling.pojo.dto.AddDynamicPojo;
+import com.cycling.pojo.dto.DynamicShow;
 import com.cycling.service.DynamicService;
 import com.cycling.utils.RequestUtil;
 import com.cycling.utils.ResponseResult;
@@ -87,5 +88,17 @@ public class DynamicServiceImpl implements DynamicService {
     public ResponseResult findDynamicRecommend() {
         List<Dynamic> dynamicRecommend = dynamicDao.findDynamicRecommend();
         return ResponseResult.ok(dynamicRecommend);
+    }
+
+    @Override
+    public List<DynamicShow> findDynamicByAttention() {
+        // 获取当前请求用户id
+        Long userId = RequestUtil.getUserId();
+        // 根据id查询关注用户动态
+        List<DynamicShow> dynamicList = dynamicDao.findDynamicByAttention(userId);
+        if (dynamicList != null) {
+            return dynamicList;
+        }
+        return null;
     }
 }
