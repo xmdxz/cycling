@@ -12,9 +12,9 @@ import com.cycling.service.DynamicService;
 import com.cycling.utils.RequestUtil;
 import com.cycling.utils.ResponseResult;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -28,13 +28,13 @@ import java.util.List;
 @Service
 @Log4j2
 public class DynamicServiceImpl implements DynamicService {
-    @Autowired
+    @Resource
     private DynamicDao dynamicDao;
 
-    @Autowired
+    @Resource
     private DynamicTopicDao dynamicTopicDao;
 
-    @Autowired
+    @Resource
     private DynamicImageDao dynamicImageDao;
 
     @Override
