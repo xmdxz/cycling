@@ -1,6 +1,8 @@
 package com.cycling.dao;
 
 import com.cycling.pojo.Dynamic;
+import com.cycling.pojo.dto.CommentShow;
+import com.cycling.pojo.dto.DynamicDetailWithComment;
 import com.cycling.pojo.dto.DynamicShow;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -68,5 +70,21 @@ public interface DynamicDao {
      */
     List<Dynamic> findDynamicRecommend();
 
+    /**
+     * 根据id获取动态详情
+     *
+     * @param id
+     * @author RainGoal
+     * @return: com.cycling.pojo.dto.DynamicDetailWithComment
+     */
+    DynamicDetailWithComment findDynamicById(Long id);
 
+    /**
+     * 根据动态id查询评论列表
+     *
+     * @param id
+     * @author RainGoal
+     * @return: java.util.List<com.cycling.pojo.dto.CommentShow>
+     */
+    List<CommentShow> findCommentById(Long id);
 }

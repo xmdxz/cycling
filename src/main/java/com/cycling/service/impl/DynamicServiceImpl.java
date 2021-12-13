@@ -7,6 +7,8 @@ import com.cycling.pojo.Dynamic;
 import com.cycling.pojo.DynamicImage;
 import com.cycling.pojo.DynamicTopic;
 import com.cycling.pojo.dto.AddDynamicPojo;
+import com.cycling.pojo.dto.CommentShow;
+import com.cycling.pojo.dto.DynamicDetailWithComment;
 import com.cycling.pojo.dto.DynamicShow;
 import com.cycling.service.DynamicService;
 import com.cycling.utils.RequestUtil;
@@ -100,5 +102,15 @@ public class DynamicServiceImpl implements DynamicService {
             return dynamicList;
         }
         return null;
+    }
+
+    @Override
+    public DynamicDetailWithComment findDynamicById(Long id) {
+        DynamicDetailWithComment dynamic = dynamicDao.findDynamicById(id);
+        if (dynamic != null) {
+            List<CommentShow> comments = dynamicDao.findCommentById(id);
+            dynamic.setComments(comments);
+        }
+        return dynamic;
     }
 }

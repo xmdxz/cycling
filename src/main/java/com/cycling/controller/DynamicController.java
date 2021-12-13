@@ -1,6 +1,7 @@
 package com.cycling.controller;
 
 import com.cycling.pojo.dto.AddDynamicPojo;
+import com.cycling.pojo.dto.DynamicDetailWithComment;
 import com.cycling.pojo.dto.DynamicShow;
 import com.cycling.service.DynamicService;
 import com.cycling.utils.ResponseResult;
@@ -47,5 +48,12 @@ public class DynamicController {
     public ResponseResult getDynamicByAttention() {
         List<DynamicShow> dynamicList = dynamicService.findDynamicByAttention();
         return ResponseResult.ok(dynamicList);
+    }
+
+    @PostMapping("getDynaminById")
+    @ApiOperation("根据id获取详细动态")
+    public ResponseResult getDynamicById(Long id) {
+        DynamicDetailWithComment dynamic = dynamicService.findDynamicById(id);
+        return ResponseResult.ok(dynamic);
     }
 }

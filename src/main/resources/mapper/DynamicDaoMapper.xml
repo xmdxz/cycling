@@ -28,6 +28,26 @@
         <result property="imageUrl" column="image_url"></result>
     </resultMap>
 
+    <resultMap id="dynamicDetailWithComment" type="com.cycling.pojo.dto.DynamicDetailWithComment">
+        <id column="id" property="id"></id>
+        <result property="avatar" column="avatar"></result>
+        <result property="username" column="username"></result>
+        <result property="level" column="level"></result>
+        <result property="title" column="title"></result>
+        <result property="content" column="content"></result>
+        <collection property="imgs" resultMap="imageMap"></collection>
+    </resultMap>
+
+    <resultMap id="commentMap" type="com.cycling.pojo.dto.CommentShow">
+        <id property="commentId" column="comment_id"></id>
+        <result property="userId" column="comment_userid"></result>
+        <result property="commentAvatar" column="comment_avatar"></result>
+        <result property="commentUsername" column="comment_username"></result>
+        <result property="commentLevel" column="comment_level"></result>
+        <result property="commentContent" column="comment_content"></result>
+        <result property="commentTime" column="comment_time"></result>
+    </resultMap>
+
     <sql id="dynamicFiled">
         id
         ,title,content,`time`,author_id,`position`
@@ -87,6 +107,33 @@
         from dynamic
                  join user_info on dynamic.author_id = user_info.userid
                  join dynamic_image on dynamic.id = dynamic_image.dynamic_id
+
+    </select>
+    <select id="findDynamicById" resultMap="dynamicDetailWithComment">
+        select dynamic.id              as id,
+               user_info.avatar        as avatar,
+               user_info.username      as username,
+               user_info.level         as level,
+               dynamic.title           as title,
+               dynamic.content         as content,
+               dynamic_image.id        as image_id,
+               dynamic_image.image_url as image_url
+        from dynamic
+                 join dynamic_image on dynamic.id = 56 and dynamic.id = dynamic_image.dynamic_id
+                 join user_info on user_info.userid = dynamic.author_id
+
+    </select>
+
+    <select id="findCommentById" resultMap="commentMap">
+        select comment.id         as comment_id,
+               comment.userid     as comment_userid,
+               user_info.avatar   as comment_avatar,
+               user_info.username as comment_username,
+               user_info.level    as comment_level,
+               comment.content    as comment_content,
+               comment.time       as comment_time
+        from comment
+                 join user_info on comment.userid = user_info.userid and comment.dynamicid = #{id};
 
     </select>
 </mapper>
