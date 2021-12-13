@@ -4,11 +4,11 @@ import com.cycling.pojo.Ride;
 import com.cycling.service.RideService;
 import com.cycling.utils.ResponseResult;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 
 @RestController
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 @RequestMapping("/ride")
 public class RideController {
 
-    @Autowired
+    @Resource
     RideService rideService;
 
     @GetMapping("/prepare")

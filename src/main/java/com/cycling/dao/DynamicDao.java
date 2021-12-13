@@ -1,6 +1,7 @@
 package com.cycling.dao;
 
 import com.cycling.pojo.Dynamic;
+import com.cycling.pojo.dto.DynamicShow;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +23,7 @@ public interface DynamicDao {
      * @return: int
      */
     Long addDynamic(Dynamic dynamic);
-    
+
     /**
      * 删除动态
      *
@@ -35,7 +36,7 @@ public interface DynamicDao {
     /**
      * 根据用户查询动态
      *
-     * @param username
+     * @param id
      * @author RainGoal
      * @return: java.util.List<com.cycling.pojo.Dynamic>
      */
@@ -44,18 +45,16 @@ public interface DynamicDao {
     /**
      * 根据账户id获取关注的人的动态
      *
-     * @param username
+     * @param id
      * @author RainGoal
      * @return: java.util.List<com.cycling.pojo.Dynamic>
      */
-    List<Dynamic> findDynamicByAttention(@Param("id") String id);
+    List<DynamicShow> findDynamicByAttention(@Param("id") Long id);
 
     /**
      * 根据地区获取推荐的动态
      *
      * @param area
-     * @param page
-     * @param num
      * @author RainGoal
      * @return: java.util.List<com.cycling.pojo.Dynamic>
      */

@@ -54,8 +54,19 @@
         where id = #{id}
     </select>
     <!--根据关注查询动态-->
-    <select id="findDynamicByAttention" resultMap="dynamic">
-        select
+    <select id="findDynamicByAttention" resultMap="dynamicShow">
+        select dynamic_id              as id,
+               user_info.avatar        as avatar,
+               user_info.username      as username,
+               user_info.level         as level,
+               dynamic.title           as title,
+               dynamic.content         as content,
+               dynamic_image.id        as image_id,
+               dynamic_image.image_url as image_url
+        from dynamic
+                 join fans on fansid = #{id} and fans.userid = dynamic.author_id
+                 join dynamic_image on dynamic.id = dynamic_image.dynamic_id
+                 join user_info on user_info.userid = dynamic.author_id
     </select>
     <!--根据地区查询动态-->
     <select id="findDynamicByArea" resultType="com.cycling.pojo.Dynamic">

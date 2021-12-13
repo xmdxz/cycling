@@ -4,9 +4,9 @@ import com.cycling.dao.TopicDao;
 import com.cycling.pojo.Topic;
 import com.cycling.service.TopicService;
 import com.github.pagehelper.PageHelper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,8 +17,8 @@ import java.util.List;
  */
 @Service
 public class TopicServiceImpl implements TopicService {
-    
-    @Autowired
+
+    @Resource
     private TopicDao topicDao;
 
     @Override

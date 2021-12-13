@@ -1,7 +1,10 @@
 package com.cycling.service;
 
 import com.cycling.pojo.dto.AddDynamicPojo;
+import com.cycling.pojo.dto.DynamicShow;
 import com.cycling.utils.ResponseResult;
+
+import java.util.List;
 
 /**
  * @InterfaceName: DynamicService
@@ -40,4 +43,6 @@ public interface DynamicService {
      * @return: com.cycling.utils.ResponseResult
      */
     ResponseResult findDynamicRecommend();
+
+    List<DynamicShow> findDynamicByAttention();
 }
