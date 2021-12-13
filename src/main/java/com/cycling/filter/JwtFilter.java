@@ -29,7 +29,7 @@ import java.util.Map;
  * @Version: V1.0
  */
 public class JwtFilter extends BasicHttpAuthenticationFilter {
-    
+
 
     /**
      * 刷新AccessToken，进行判断RefreshToken是否过期也就是到30分钟没有，未过期就返回新的jwt——Token且继续正常访问
@@ -182,6 +182,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                 if (e instanceof TokenExpiredException) {
                     //续签成功返回true 放行  失败 拦截
                     if (refreshToken(request, response)) {
+                        return true;
                     } else {
                         return false;
                     }
