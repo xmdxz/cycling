@@ -44,8 +44,7 @@ public class CustomerRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         System.out.println("用户授权");
         String token = (principalCollection.toString());
-        DecodedJWT tokenInfo = JWTUtils.getTokenInfo(token);
-        String id = tokenInfo.getClaim("id").asString();
+        String id =  JWTUtils.getTokenInfo(token,"id").asString();
         User user = userService.findById(Long.valueOf(id));
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //测试
@@ -65,8 +64,7 @@ public class CustomerRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         System.out.println("shiro身份认证");
         String token = (String) authenticationToken.getCredentials();
-        DecodedJWT tokenInfo = JWTUtils.getTokenInfo(token);
-        String id = tokenInfo.getClaim("id").asString();
+        String id = JWTUtils.getTokenInfo(token,"id").asString();
         User user = userService.findById(Long.valueOf(id));
         if (ObjectUtils.isEmpty(user)) {
             throw new AuthenticationException("认证失败！");

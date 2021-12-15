@@ -7,14 +7,16 @@ import com.cycling.pojo.Dynamic;
 import com.cycling.pojo.DynamicImage;
 import com.cycling.pojo.DynamicTopic;
 import com.cycling.pojo.dto.AddDynamicPojo;
+import com.cycling.pojo.dto.CommentShow;
+import com.cycling.pojo.dto.DynamicDetailWithComment;
 import com.cycling.pojo.dto.DynamicShow;
 import com.cycling.service.DynamicService;
 import com.cycling.utils.RequestUtil;
 import com.cycling.utils.ResponseResult;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -28,13 +30,13 @@ import java.util.List;
 @Service
 @Log4j2
 public class DynamicServiceImpl implements DynamicService {
-    @Autowired
+    @Resource
     private DynamicDao dynamicDao;
 
-    @Autowired
+    @Resource
     private DynamicTopicDao dynamicTopicDao;
 
-    @Autowired
+    @Resource
     private DynamicImageDao dynamicImageDao;
 
     @Override
@@ -100,5 +102,21 @@ public class DynamicServiceImpl implements DynamicService {
             return dynamicList;
         }
         return null;
+    }
+
+    @Override
+    public DynamicDetailWithComment findDynamicById(Long id) {
+        DynamicDetailWithComment dynamic = dynamicDao.findDynamicById(id);
+        if (dynamic != null) {
+            List<CommentShow> comments = dynamicDao.findCommentById(id);
+            dynamic.setComments(comments);
+        }
+        return dynamic;
+    }
+
+    @Override
+    public List<DynamicShow> findDynamicByContent(String content) {
+        List<DynamicShow> dynamics = dynamicDao.findDynamicByContent(content);
+        return dynamics;
     }
 }

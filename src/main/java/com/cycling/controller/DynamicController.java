@@ -1,17 +1,19 @@
 package com.cycling.controller;
 
 import com.cycling.pojo.dto.AddDynamicPojo;
+import com.cycling.pojo.dto.DynamicDetailWithComment;
 import com.cycling.pojo.dto.DynamicShow;
 import com.cycling.service.DynamicService;
 import com.cycling.utils.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ import java.util.List;
 @Api(tags = "动态相关模块")
 public class DynamicController {
 
-    @Autowired
+    @Resource
     private DynamicService dynamicService;
 
     @PostMapping("publicDynamic")
@@ -47,5 +49,19 @@ public class DynamicController {
     public ResponseResult getDynamicByAttention() {
         List<DynamicShow> dynamicList = dynamicService.findDynamicByAttention();
         return ResponseResult.ok(dynamicList);
+    }
+
+    @PostMapping("getDynaminById")
+    @ApiOperation("根据id获取详细动态")
+    public ResponseResult getDynamicById(Long id) {
+        DynamicDetailWithComment dynamic = dynamicService.findDynamicById(id);
+        return ResponseResult.ok(dynamic);
+    }
+
+    @PostMapping("getDynamicByContent")
+    @ApiOperation("根据内容搜索")
+    public ResponseResult getDynamicByContent(@RequestParam("content") String content) {
+        List<DynamicShow> dynamics = dynamicService.findDynamicByContent(content);
+        return ResponseResult.ok(dynamics);
     }
 }

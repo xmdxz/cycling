@@ -29,7 +29,7 @@ import java.util.Map;
  * @Version: V1.0
  */
 public class JwtFilter extends BasicHttpAuthenticationFilter {
-    
+
 
     /**
      * 刷新AccessToken，进行判断RefreshToken是否过期也就是到30分钟没有，未过期就返回新的jwt——Token且继续正常访问
@@ -41,23 +41,22 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     private boolean refreshToken(ServletRequest request, ServletResponse response) {
         String jwt_token = ((HttpServletRequest) request).getHeader("token");
         //从jwt——token中拿出用户名和登录时间来判断Redis是否存在所对应的RefreshToken
-        DecodedJWT info = JWTUtils.getTokenInfo(jwt_token);
-        String phone = info.getClaim("phone").asString();
-        Long currentTime = info.getClaim("currentTime").asLong();
+        String id = JWTUtils.getTokenInfo(jwt_token,"id").asString();
+        Long currentTime = JWTUtils.getTokenInfo(jwt_token,"currentTime").asLong();
         // 判断Redis中RefreshToken是否存在
-        if (RedisUtil.hasKey(phone)) {
+        if (RedisUtil.hasKey(id)) {
             // Redis中RefreshToken还存在，获取RefreshToken的时间戳
-            Long currentTimeMillisRedis = (Long) RedisUtil.get(phone);
+            Long currentTimeMillisRedis = (Long) RedisUtil.get(id);
             // 获取当前jwt——Token中的时间戳，与RefreshToken的时间戳对比，如果当前时间戳一致，对jwt——Token进行刷新
             if (currentTimeMillisRedis.equals(currentTime)) {
                 // 获取当前最新时间戳
                 Long currentTimeMillis = System.currentTimeMillis();
                 //进行刷新redis中的RefreshToken
-                RedisUtil.set(phone, currentTimeMillis,
+                RedisUtil.set(id, currentTimeMillis,
                         JWTUtils.REFRESH_TOKEN_EXPIRE_TIME);
                 // 刷新jwt——Token，设置时间戳为当前最新时间戳也就是重新生成jwt——token
                 Map<String, String> map = new HashMap<>();
-                map.put("phone", phone);
+                map.put("id", id);
                 jwt_token = JWTUtils.getToken(map, currentTimeMillis);
                 HttpServletResponse httpServletResponse = (HttpServletResponse) response;
                 httpServletResponse.setHeader("Authorization", jwt_token);
@@ -74,12 +73,12 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      * @param response
      * @param msg
      */
-    private void responseError(ServletResponse response, String msg) {
+    private void responseError(ServletResponse response, String msg,int code) {
 
         //把服务端的response转换为客户端的response
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         //给客户端响应的状态设置为401
-        httpServletResponse.setStatus(401);
+        httpServletResponse.setStatus(HttpStatus.OK.value());
         //设置字符集为utf-8
         httpServletResponse.setCharacterEncoding("UTF-8");
         //设置响应内容的类型
@@ -87,7 +86,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         //把响应的信息放在客户端响应体中
         try {
             //将msg封装为一个Result对象并用ObjectMapper().writeValueAsString方法将其json话并返回
-            String message = new ObjectMapper().writeValueAsString(new ResponseResult(msg, 401));
+            String message = new ObjectMapper().writeValueAsString(new ResponseResult(msg, code));
             //向客户端响应体中追加信息
             httpServletResponse.getWriter().append(message);
         } catch (IOException e) {
@@ -134,7 +133,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             return executeLogin(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            responseError(response, "认证失败");
+            responseError(response, "认证失败",HttpStatus.UNAUTHORIZED.value());
             //抛出异常说明没有登录 返回false
             return false;
         }
@@ -159,9 +158,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             try {
                 if (JWTUtils.verify(jwt_token)) {
                     //从jwt——token中拿出用户名和登录时间来判断Redis是否存在所对应的RefreshToken
-                    DecodedJWT info = JWTUtils.getTokenInfo(jwt_token);
-                    String id = info.getClaim("id").asString();
-                    Long currentTime = info.getClaim("currentTime").asLong();
+                    String id = JWTUtils.getTokenInfo(jwt_token,"id").asString();
+                    Long currentTime = JWTUtils.getTokenInfo(jwt_token,"currentTime").asLong();
                     //判断Redis是否存在所对应的RefreshToken
                     if (RedisUtil.hasKey(id)) {
                         //如果存在 则取出RefreshToken中的登陆时间
@@ -207,7 +205,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
         //把服务端request转换客户端request把服务端response转换客户端response
         this.sendChallenge(request, response);
-        responseError(response, "token 验证失败");
+        responseError(response, "token 验证失败",HttpStatus.UNAUTHORIZED.value());
         return false;
     }
 
@@ -255,7 +253,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
         //如果不携带token，返回false 直接拦截 不去验证shiro
         if (!isLoginAttempt(request, response)) {
-            responseError(httpServletResponse, "没有携带token");
+            responseError(httpServletResponse, "没有携带token",HttpStatus.UNAUTHORIZED.value());
             return false;
         }
         return super.preHandle(request, response);
