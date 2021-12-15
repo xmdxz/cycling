@@ -113,4 +113,10 @@ public class DynamicServiceImpl implements DynamicService {
         }
         return dynamic;
     }
+
+    @Override
+    public List<DynamicShow> findDynamicByContent(String content) {
+        List<DynamicShow> dynamics = dynamicDao.findDynamicByContent(content);
+        return dynamics;
+    }
 }
