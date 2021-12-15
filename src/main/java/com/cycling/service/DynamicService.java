@@ -61,6 +61,4 @@ public interface DynamicService {
      * @return: com.cycling.pojo.dto.DynamicDetailWithComment
      */
     DynamicDetailWithComment findDynamicById(Long id);
-
-    List<DynamicShow> findDynamicByContent(String content);
 }

@@ -27,14 +27,14 @@ public class JWTUtils {
     /**
      * token过期时间
      */
-    private static final long EXPIRE_TIME = 60 * 60 * 24 * 7 * 1000;
-    // private static final long EXPIRE_TIME = 30 * 1000;
+//    private static final long EXPIRE_TIME = 60 * 60 * 24 * 7 * 1000;
+    private static final long EXPIRE_TIME = 30 * 1000;
 
     /**
      * 刷新时间
      */
 //    public static final long REFRESH_TOKEN_EXPIRE_TIME = 60 * 60 * 24 * 7 * 14 * 1000;
-    public static final long REFRESH_TOKEN_EXPIRE_TIME = 180 * 1000;
+    public static final long REFRESH_TOKEN_EXPIRE_TIME = 180 *  1000;
 
     /**
      * token过期的状态码
@@ -60,7 +60,10 @@ public class JWTUtils {
         map.forEach((k, v) -> {
             builder.withClaim(k, v);
         });
-        String token = builder.withClaim("currentTime", currentTime).withExpiresAt(token_expire_time).sign(Algorithm.HMAC256(SIGN));
+        String token = builder
+                .withClaim("currentTime", currentTime)
+                .withExpiresAt(token_expire_time)
+                .sign(Algorithm.HMAC256(SIGN));
         return token;
 
     }
@@ -73,13 +76,15 @@ public class JWTUtils {
      * @date 2021/9/29 11:57 上午
      * @return: void
      */
-    public static boolean verify(String token) {
+    public static boolean verify(String token){
         try {
             DecodedJWT v = JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
             return true;
-        } catch (Exception e) {
-            if (e instanceof TokenExpiredException) throw new TokenExpiredException("token过期");
-            else {
+        }catch (Exception e)
+        {
+            if(e instanceof TokenExpiredException)
+                throw new TokenExpiredException("token过期");
+            else{
                 return false;
             }
         }

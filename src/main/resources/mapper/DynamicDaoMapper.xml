@@ -52,18 +52,6 @@
         id
         ,title,content,`time`,author_id,`position`
     </sql>
-
-    <sql id="dynamicShowGeneralSql">
-        dynamic_id
-        as id,
-               user_info.avatar        as avatar,
-               user_info.username      as username,
-               user_info.level         as level,
-               dynamic.title           as title,
-               dynamic.content         as content,
-               dynamic_image.id        as image_id,
-               dynamic_image.image_url as image_url
-    </sql>
     <!--插入动态-->
     <insert id="addDynamic" parameterType="com.cycling.pojo.Dynamic"
             useGeneratedKeys="true" keyProperty="id"
@@ -131,7 +119,7 @@
                dynamic_image.id        as image_id,
                dynamic_image.image_url as image_url
         from dynamic
-                 join dynamic_image on dynamic.id = #{id} and dynamic.id = dynamic_image.dynamic_id
+                 join dynamic_image on dynamic.id = 56 and dynamic.id = dynamic_image.dynamic_id
                  join user_info on user_info.userid = dynamic.author_id
 
     </select>
@@ -147,13 +135,5 @@
         from comment
                  join user_info on comment.userid = user_info.userid and comment.dynamicid = #{id};
 
-    </select>
-    <select id="findDynamicByContent" resultMap="dynamicShow">
-        select
-        <include refid="dynamicShowGeneralSql"></include>
-        from dynamic
-        join user_info on user_info.userid = dynamic.author_id
-        join dynamic_image on dynamic_image.dynamic_id = dynamic.id
-        where dynamic.content like "%"#{content}"%"
     </select>
 </mapper>
