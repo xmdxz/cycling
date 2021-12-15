@@ -43,7 +43,6 @@ public class MyShiroConfig {
         //设置放行和不放行的资源
         Map<String, String> sourceMap = new LinkedHashMap<>();
         //放行的资源
-        sourceMap.put("/ride/prepare", "anon");
         sourceMap.put("/login", "anon");
         sourceMap.put("/login2", "anon");
         sourceMap.put("/code", "anon");
