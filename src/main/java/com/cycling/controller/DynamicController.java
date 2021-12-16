@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -55,5 +56,12 @@ public class DynamicController {
     public ResponseResult getDynamicById(Long id) {
         DynamicDetailWithComment dynamic = dynamicService.findDynamicById(id);
         return ResponseResult.ok(dynamic);
+    }
+
+    @PostMapping("getDynamicByContent")
+    @ApiOperation("根据内容搜索")
+    public ResponseResult getDynamicByContent(@RequestParam("content") String content) {
+        List<DynamicShow> dynamics = dynamicService.findDynamicByContent(content);
+        return ResponseResult.ok(dynamics);
     }
 }
