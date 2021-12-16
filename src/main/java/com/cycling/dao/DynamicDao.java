@@ -87,4 +87,13 @@ public interface DynamicDao {
      * @return: java.util.List<com.cycling.pojo.dto.CommentShow>
      */
     List<CommentShow> findCommentById(Long id);
+
+    /**
+     * 通过动态内容查询动态
+     *
+     * @param content
+     * @author RainGoal
+     * @return: java.util.List<com.cycling.pojo.dto.DynamicShow>
+     */
+    List<DynamicShow> findDynamicByContent(String content);
 }
