@@ -1,6 +1,7 @@
 package com.cycling.service;
 
 import com.cycling.pojo.Ride;
+import com.cycling.pojo.dto.AddRideDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,12 @@ public interface RideService {
      * @return
      */
     int insertRide(Ride ride);
+
+    /**
+     * 从rideDto中格式化数据再插入骑行记录
+     * @return
+     */
+    int insertRideFormRideDto(AddRideDto addRideDto);
 
     /**
      * 删除一条骑行记录
