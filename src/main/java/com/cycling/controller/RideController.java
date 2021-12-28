@@ -22,6 +22,7 @@ public class RideController {
     @GetMapping("/route")
     public ResponseResult prepareRide(Integer mapId) {
         double[][] allRoute = {
+
                 {112.590189, 37.42093},
                 {112.589862, 37.420964},
                 {112.58984, 37.421033},
@@ -30,6 +31,7 @@ public class RideController {
                 {112.591139, 37.429996},
                 {112.588569, 37.43115},
                 {112.587979, 37.426368}
+
         };
         ResponseResult result = ResponseResult.ok(allRoute);
         return result;
