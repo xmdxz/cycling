@@ -31,6 +31,14 @@ public interface ActiveDao {
     List<Active> getAllActive();
 
     /**
+     * 分页查询
+     * @param id
+     * @return java.util.List<com.cycling.pojo.Active>
+     * @author Shubo_Yang
+     * @date 2021/11/19 16:53
+     */
+    List<Active> getAllAvtiveBypage(Long id);
+    /**
      * 获取未经过审核活动
      * @param
      * @return java.util.List<com.cycling.pojo.Active>
@@ -39,4 +47,19 @@ public interface ActiveDao {
      */
     List<Active>getAllActiveWithoutCheck();
 
+    /**
+     *
+     * @param tags
+     * @return java.util.List<com.cycling.pojo.Active>
+     * @author Shubo_Yang
+     */
+    List<Active>getActiveByTags(List<String> tags);
+
+    /**
+     *
+     * @param id
+     * @return com.cycling.pojo.Active
+     * @author Shubo_Yang
+     */
+    Active getActive(long id);
 }

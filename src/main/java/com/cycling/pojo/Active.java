@@ -23,10 +23,6 @@ public class Active {
 
     private Long mapId;//引用地图id
 
-    private String synopsis;//简介
-
-    private String danger;//注意
-
     private Long authorid;//作者id
 
     private Date startTime;//开始时间
@@ -36,4 +32,8 @@ public class Active {
     private String contact;//联系方式
 
     private Integer ischeck;//是否审核
+
+    private String synopsis;//简介
+
+    private String danger;//注意
 }

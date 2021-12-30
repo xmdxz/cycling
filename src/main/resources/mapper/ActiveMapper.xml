@@ -21,7 +21,7 @@
     <sql id="Base_Filed">
         id, title, map_id,
       authorid, start_time, stop_time,
-      contact, synopsis,
+      contact, ischeck, synopsis,
       danger
     </sql>
     <insert id="insert" parameterType="com.cycling.pojo.Active" >
@@ -113,5 +113,13 @@
         <include refid="Base_Filed"></include>
         from active
         where ischeck = 0
+    </select>
+    <select id="getAllAvtiveBypage"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Filed"></include>
+        from active
+        where ischeck = 1 and  id &lt; #{id}
+        order by id desc
+        limit 20
     </select>
 </mapper>

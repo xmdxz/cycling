@@ -3,6 +3,7 @@ package com.cycling.service;
 import com.cycling.pojo.Active;
 import com.cycling.utils.ResponseResult;
 import com.github.pagehelper.PageInfo;
+import org.dom4j.DocumentException;
 
 import java.util.List;
 
@@ -33,10 +34,35 @@ public interface ActiveService {
 
     /**
      * 分页获取
-     * @param pageNo //页码
+     * @param id //id下标
      * @return com.github.pagehelper.PageInfo<com.cycling.pojo.Active>
      * @author Shubo_Yang
      * @date 2021/10/28 20:27
      */
-    ResponseResult getAllActiveByPage(int pageNo);
+    ResponseResult getAllActiveByPage(Long id);
+
+/**
+ *
+ * @param area //地区
+ * @param id
+ * @return com.cycling.utils.ResponseResult
+ * @author Shubo_Yang
+ * @date 2021/12/7 17:18
+ */
+    ResponseResult getActiveByAreaAndPage(String area,Long id);
+
+    /**
+     * 根据关键字查询
+     * @param keywords
+     * @return com.cycling.utils.ResponseResult
+     * @author Shubo_Yang
+     * @date 2021/12/7 18:32
+     */
+    ResponseResult getActiveByKeywords(String keywords);
+
+    //根据标签查找
+    ResponseResult getActiveByTags(List<String> tags);
+
+    //获取活动详细信息
+    ResponseResult getActive(long id) throws DocumentException;
 }
