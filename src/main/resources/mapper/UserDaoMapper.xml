@@ -250,4 +250,8 @@
         from user_info
         where user_info.userid = #{userId,jdbcType=BIGINT}
     </delete>
+
+    <delete id="deleteUserRelation">
+        delete from fans where userid = #{userId,jdbcType=BIGINT} or fansid = #{userId,jdbcType=BIGINT}
+    </delete>
 </mapper>

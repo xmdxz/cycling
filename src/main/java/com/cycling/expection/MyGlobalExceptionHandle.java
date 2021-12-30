@@ -73,9 +73,9 @@ public class MyGlobalExceptionHandle {
     @ExceptionHandler(SQLException.class)
     public ResponseResult sqlHandler(SQLException sqlException, HttpServletRequest request) {
         if ("DELETE".equalsIgnoreCase(request.getMethod())) {
-            return ResponseResult.error("删除失败", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return ResponseResult.error("注销失败", HttpStatus.INTERNAL_SERVER_ERROR.value());
         }
-        return ResponseResult.error("失败", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return ResponseResult.error("操作失败", HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 
     /**

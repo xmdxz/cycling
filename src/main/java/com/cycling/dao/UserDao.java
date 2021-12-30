@@ -54,6 +54,7 @@ public interface UserDao {
 
     /**
      * 获取用户用于展示的信息
+     *
      * @param id
      * @return com.cycling.pojo.dto.UserShow
      * @author Shubo_Yang
@@ -190,4 +191,10 @@ public interface UserDao {
      * @return
      */
     Integer deleteUserInfo(Long userId);
+
+    /**
+     * 删除用户相关关系
+     * @return
+     */
+    int deleteUserRelation(Long userId);
 }

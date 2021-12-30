@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -126,12 +127,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = SQLException.class)
     public Integer accountCancellation() {
         Long userId = RequestUtil.getUserId();
-        Integer deleteUser = userDao.deleteUser(userId);
-        Integer deleteUserInfo = userDao.deleteUserInfo(userId);
-        return deleteUser + deleteUserInfo;
+        return userDao.deleteUser(userId) + userDao.deleteUserInfo(userId) + userDao.deleteUserRelation(userId);
     }
 
 
