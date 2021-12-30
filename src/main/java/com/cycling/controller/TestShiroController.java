@@ -14,7 +14,7 @@ public class TestShiroController {
     public String index() {
         return "hhh";
     }
-
+    
     @PostMapping("/user")
     @RequiresRoles(logical = Logical.OR, value = {"user", "admin"})
     public ResponseResult user() {

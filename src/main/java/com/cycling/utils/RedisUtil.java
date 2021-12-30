@@ -1,4 +1,3 @@
-
 package com.cycling.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class RedisUtil {
-
-
+    
     private static RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
@@ -185,29 +183,26 @@ public class RedisUtil {
     }
 
     /**
-     *
-     * @author qyz
      * @param key
+     * @author qyz
      * @return: java.lang.Object
      */
-    public static Object hKeys(String key)
-    {
+    public static Object hKeys(String key) {
 
-        return  redisTemplate.opsForHash().keys(key);
+        return redisTemplate.opsForHash().keys(key);
     }
 
 
     /**
-     *
-     * @author qyz
      * @param key
+     * @author qyz
      * @return: java.lang.Object
      */
-    public static Object hValues(String key)
-    {
+    public static Object hValues(String key) {
 
-        return  redisTemplate.opsForHash().values(key);
+        return redisTemplate.opsForHash().values(key);
     }
+
     /**
      * 获取hashKey对应的所有键值
      *
@@ -427,13 +422,11 @@ public class RedisUtil {
     }
 
     /**
-     *
-     * @author qyz
      * @param key
+     * @author qyz
      * @return: long
      */
-    public static long hGetHsetSize(String key)
-    {
+    public static long hGetHsetSize(String key) {
 
         try {
             return redisTemplate.opsForHash().size(key);
@@ -442,6 +435,7 @@ public class RedisUtil {
             return 0;
         }
     }
+
     /**
      * 移除值为value的
      *

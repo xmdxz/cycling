@@ -4,9 +4,10 @@ import com.cycling.dao.CommentDao;
 import com.cycling.pojo.Comment;
 import com.cycling.service.CommentService;
 import com.cycling.utils.ResponseResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -16,9 +17,9 @@ import java.util.List;
  * @Description: TODO
  * @Date: 2021/10/29 7:22 下午
  */
-
+@Service
 public class CommentServiceImpl implements CommentService {
-    @Autowired
+    @Resource
     private CommentDao commentDao;
 
     @Override

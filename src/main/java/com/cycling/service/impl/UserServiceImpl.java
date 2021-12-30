@@ -11,6 +11,7 @@ import com.cycling.pojo.dto.SimpleDynamicOrActive;
 import com.cycling.service.UserService;
 import com.cycling.utils.RequestUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
@@ -122,6 +123,15 @@ public class UserServiceImpl implements UserService {
                 break;
         }
         return result;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Integer accountCancellation() {
+        Long userId = RequestUtil.getUserId();
+        Integer deleteUser = userDao.deleteUser(userId);
+        Integer deleteUserInfo = userDao.deleteUserInfo(userId);
+        return deleteUser + deleteUserInfo;
     }
 
 

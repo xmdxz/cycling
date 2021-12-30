@@ -22,17 +22,17 @@ public class Comment {
     /**
      * 评论id
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 动态id
      */
-    private Integer dynamicId;
+    private Long dynamicId;
 
     /**
      * 用户id
      */
-    private Integer userId;
+    private Long userId;
 
     /**
      * 评论内容

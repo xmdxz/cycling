@@ -7,15 +7,16 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * @ClassName: DynamicShow
+ * @ClassName: DynamicDetailWithComment
  * @Author: RainGoal
  * @Description: TODO
- * @Date: 2021/12/3 9:08 下午
+ * @Date: 2021/12/11 10:24 AM
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class DynamicShow {
+public class DynamicDetailWithComment {
+
     private Long id;
 
     private String avatar;
@@ -29,4 +30,6 @@ public class DynamicShow {
     private String content;
 
     private List<DynamicShowImage> imgs;
+
+    private List<CommentShow> comments;
 }

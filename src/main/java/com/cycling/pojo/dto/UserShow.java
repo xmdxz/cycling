@@ -4,29 +4,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 /**
- * @ClassName: DynamicShow
+ * @ClassName: UserShow
  * @Author: RainGoal
  * @Description: TODO
- * @Date: 2021/12/3 9:08 下午
+ * @Date: 2021/12/13 10:08 PM
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class DynamicShow {
-    private Long id;
+public class UserShow {
+    private Long userId;
 
     private String avatar;
 
-    private String username;
-
     private String level;
 
-    private String title;
+    private String username;
 
-    private String content;
-
-    private List<DynamicShowImage> imgs;
 }

@@ -227,4 +227,16 @@
         order by collection_active.time desc
         limit #{num,jdbcType=INTEGER}
     </select>
+
+    <delete id="deleteUser">
+        delete
+        from user
+        where user.id = #{userId,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteUserInfo">
+        delete
+        from user_info
+        where user_info.userid = #{userId,jdbcType=BIGINT}
+    </delete>
 </mapper>

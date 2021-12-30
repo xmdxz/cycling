@@ -1,7 +1,11 @@
 package com.cycling.service;
 
 import com.cycling.pojo.dto.AddDynamicPojo;
+import com.cycling.pojo.dto.DynamicDetailWithComment;
+import com.cycling.pojo.dto.DynamicShow;
 import com.cycling.utils.ResponseResult;
+
+import java.util.List;
 
 /**
  * @InterfaceName: DynamicService
@@ -40,4 +44,23 @@ public interface DynamicService {
      * @return: com.cycling.utils.ResponseResult
      */
     ResponseResult findDynamicRecommend();
+
+    /**
+     * 通过关注获取动态
+     *
+     * @author RainGoal
+     * @return: java.util.List<com.cycling.pojo.dto.DynamicShow>
+     */
+    List<DynamicShow> findDynamicByAttention();
+
+    /**
+     * 根据id获取动态详情
+     *
+     * @param id
+     * @author RainGoal
+     * @return: com.cycling.pojo.dto.DynamicDetailWithComment
+     */
+    DynamicDetailWithComment findDynamicById(Long id);
+
+    List<DynamicShow> findDynamicByContent(String content);
 }

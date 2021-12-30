@@ -1,6 +1,9 @@
 package com.cycling.dao;
 
 import com.cycling.pojo.Dynamic;
+import com.cycling.pojo.dto.CommentShow;
+import com.cycling.pojo.dto.DynamicDetailWithComment;
+import com.cycling.pojo.dto.DynamicShow;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +25,7 @@ public interface DynamicDao {
      * @return: int
      */
     Long addDynamic(Dynamic dynamic);
-    
+
     /**
      * 删除动态
      *
@@ -35,7 +38,7 @@ public interface DynamicDao {
     /**
      * 根据用户查询动态
      *
-     * @param username
+     * @param id
      * @author RainGoal
      * @return: java.util.List<com.cycling.pojo.Dynamic>
      */
@@ -44,18 +47,16 @@ public interface DynamicDao {
     /**
      * 根据账户id获取关注的人的动态
      *
-     * @param username
+     * @param id
      * @author RainGoal
      * @return: java.util.List<com.cycling.pojo.Dynamic>
      */
-    List<Dynamic> findDynamicByAttention(@Param("id") String id);
+    List<DynamicShow> findDynamicByAttention(@Param("id") Long id);
 
     /**
      * 根据地区获取推荐的动态
      *
      * @param area
-     * @param page
-     * @param num
      * @author RainGoal
      * @return: java.util.List<com.cycling.pojo.Dynamic>
      */
@@ -69,5 +70,30 @@ public interface DynamicDao {
      */
     List<Dynamic> findDynamicRecommend();
 
+    /**
+     * 根据id获取动态详情
+     *
+     * @param id
+     * @author RainGoal
+     * @return: com.cycling.pojo.dto.DynamicDetailWithComment
+     */
+    DynamicDetailWithComment findDynamicById(Long id);
 
+    /**
+     * 根据动态id查询评论列表
+     *
+     * @param id
+     * @author RainGoal
+     * @return: java.util.List<com.cycling.pojo.dto.CommentShow>
+     */
+    List<CommentShow> findCommentById(Long id);
+
+    /**
+     * 通过动态内容查询动态
+     *
+     * @param content
+     * @author RainGoal
+     * @return: java.util.List<com.cycling.pojo.dto.DynamicShow>
+     */
+    List<DynamicShow> findDynamicByContent(String content);
 }

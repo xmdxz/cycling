@@ -26,7 +26,7 @@ import java.util.Map;
 @Configuration
 public class MyShiroConfig {
 
-
+    
     //创建一个shiro过滤器
     @Bean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(DefaultWebSecurityManager defaultWebSecurityManager) {
