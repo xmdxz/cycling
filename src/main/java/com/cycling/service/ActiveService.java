@@ -64,5 +64,5 @@ public interface ActiveService {
     ResponseResult getActiveByTags(List<String> tags);
 
     //获取活动详细信息
-    ResponseResult getActive(long id) throws DocumentException;
+    ResponseResult getActive(long id);
 }

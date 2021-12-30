@@ -84,9 +84,15 @@ public class ActiveServiceImpl implements ActiveService {
     }
 
     @Override
-    public ResponseResult getActive(long id) throws DocumentException {
+    public ResponseResult getActive(long id){
         Active a= activeDao.getActive(id);
-        ActiveWithMap aw =MapUtil.getMapActive(a);
+        ActiveWithMap aw = null;
+        try {
+            aw = MapUtil.getMapActive(a);
+        } catch (DocumentException e) {
+            log.error("读取地图失败");
+            log.error(e);
+        }
         aw.setUserShow(userDao.getUserShowInfo(a.getAuthorid()));
         return ResponseResult.ok(aw);
     }
