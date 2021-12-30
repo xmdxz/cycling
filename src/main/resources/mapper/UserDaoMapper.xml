@@ -38,6 +38,10 @@
         active.id as id,title,username,synopsis as `body`,active.time as `time`,avatar
     </sql>
 
+    <sql id="userShow">
+        userid,avatar,level,username
+    </sql>
+
     <sql id="ownInfo">
         avatar,level,sex,exp,introduction,username
     </sql>
