@@ -2,10 +2,7 @@ package com.cycling.dao;
 
 import com.cycling.pojo.User;
 import com.cycling.pojo.UserInfo;
-import com.cycling.pojo.dto.FansAndFocusDto;
-import com.cycling.pojo.dto.OwnInfo;
-import com.cycling.pojo.dto.RelatedCount;
-import com.cycling.pojo.dto.SimpleDynamicOrActive;
+import com.cycling.pojo.dto.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
