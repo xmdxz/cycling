@@ -56,6 +56,15 @@ public interface UserDao {
     OwnInfo getMyInfo(Long id);
 
     /**
+     * 获取用户用于展示的信息
+     * @param id
+     * @return com.cycling.pojo.dto.UserShow
+     * @author Shubo_Yang
+     * @date 2021/12/14 14:07
+     */
+    UserShow getUserShowInfo(Long id);
+
+    /**
      * 获取用户获赞，关注数等
      *
      * @param id 用户id

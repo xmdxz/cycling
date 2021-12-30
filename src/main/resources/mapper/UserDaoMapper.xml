@@ -77,6 +77,13 @@
         from user_info where userid = #{id,jdbcType=BIGINT}
     </select>
 
+    <select id="getUserShowInfo" resultType="com.cycling.pojo.dto.UserShow">
+        select
+     <include refid="userShow">
+     </include>
+     from user_info where userid = #{id,jdbcType=BIGINT}
+     </select>
+
     <select id="getRelatedCount" resultType="com.cycling.pojo.dto.RelatedCount">
         select (select count(id) from fans where userid = #{id,jdbcType=BIGINT}) as fansCount,
                (select count(id) from fans where fansid = #{id,jdbcType=BIGINT}) as focusCount,
