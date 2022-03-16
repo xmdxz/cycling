@@ -160,7 +160,6 @@ public class ActiveServiceImpl implements ActiveService {
             return -1;
         }
         if (RedisUtil.decr(activityKey, 1) < 0) {
-            RedisUtil.incr(activityKey, 1);
             //库存不足
             return 0;
         }
@@ -209,7 +208,6 @@ public class ActiveServiceImpl implements ActiveService {
             }
             activeDao.insertParticipation(participation);
             activeDao.minusRemain(participation.getLimitActivityId());
-            RedisUtil.del(REPEAT_REQUEST + participation.getLimitActivityId() + ":" + participation.getUserId());
             dataSourceTransactionManager.commit(transaction);
             channel.basicAck(delivery, false);
         } catch (IOException e) {

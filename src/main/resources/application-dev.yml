@@ -48,8 +48,8 @@ mybatis:
 logging:
   config: classpath:config/log4j2.xml
   level:
-    com.cycling.dao: debug
-    org.springframework.web: debug
+    com.cycling.dao: info
+    org.springframework.web: info
 
 # pagehelper
 pagehelper:
