@@ -89,6 +89,16 @@ public class UserController {
         return ResponseResult.ok(userService.accountCancellation());
     }
 
+    @GetMapping(value = "/getChatHistory")
+    public ResponseResult getChatHistory(Long page, Integer num, Long receiveId) {
+        return ResponseResult.ok(userService.getChatHistory(page, num, receiveId));
+    }
+
+    @GetMapping(value = "/getAvatar")
+    public ResponseResult getAvatar(Long id) {
+        return ResponseResult.ok(userService.getAvatar(id));
+    }
+
     private <T> ResponseResult isEmpty(T parameter) {
         if (parameter == null) {
             return ResponseResult.error("获取信息失败,请重试", HttpStatus.NOT_FOUND.value());

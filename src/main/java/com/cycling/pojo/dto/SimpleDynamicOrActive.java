@@ -1,5 +1,6 @@
 package com.cycling.pojo.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -29,5 +30,6 @@ public class SimpleDynamicOrActive {
 
     private String username;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp time;
 }

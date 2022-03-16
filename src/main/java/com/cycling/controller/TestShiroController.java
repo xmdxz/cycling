@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestShiroController {
     @RequestMapping("/")
     public String index() {
-        return "hhh";
+        return "websocket";
     }
-    
+
     @PostMapping("/user")
     @RequiresRoles(logical = Logical.OR, value = {"user", "admin"})
     public ResponseResult user() {

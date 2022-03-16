@@ -2,6 +2,7 @@ package com.cycling.service.impl;
 
 import com.cycling.dao.UserDao;
 import com.cycling.enumerate.PersonDataType;
+import com.cycling.pojo.Chat;
 import com.cycling.pojo.User;
 import com.cycling.pojo.UserInfo;
 import com.cycling.pojo.dto.FansAndFocusDto;
@@ -78,6 +79,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Integer insertChatHistory(Chat chat) {
+        return userDao.insertChatHistory(chat);
+    }
+
+    @Override
     public Integer cancelFocused(Long id, Long focusedUserId) {
         if (id != null) {
             return userDao.cancelFocusedById(id);
@@ -131,6 +137,16 @@ public class UserServiceImpl implements UserService {
     public Integer accountCancellation() {
         Long userId = RequestUtil.getUserId();
         return userDao.deleteUser(userId) + userDao.deleteUserInfo(userId) + userDao.deleteUserRelation(userId);
+    }
+
+    @Override
+    public String getAvatar(Long id) {
+        return userDao.findAvatarById(id);
+    }
+
+    @Override
+    public List<Chat> getChatHistory(Long pageId, Integer num, Long receiver) {
+        return userDao.findChatHistory(receiver, RequestUtil.getUserId(), pageId, num);
     }
 
 

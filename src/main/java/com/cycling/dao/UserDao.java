@@ -1,5 +1,6 @@
 package com.cycling.dao;
 
+import com.cycling.pojo.Chat;
 import com.cycling.pojo.User;
 import com.cycling.pojo.UserInfo;
 import com.cycling.pojo.dto.*;
@@ -194,7 +195,38 @@ public interface UserDao {
 
     /**
      * 删除用户相关关系
+     *
      * @return
      */
     int deleteUserRelation(Long userId);
+
+    /**
+     * 查找聊天记录
+     *
+     * @param receiver
+     * @param sender
+     * @param pageId
+     * @param num
+     * @return
+     */
+    List<Chat> findChatHistory(@Param("receiver") Long receiver, @Param("sender") Long sender, @Param("pageId") Long pageId, @Param("num") Integer num);
+
+    /**
+     * 查找头像
+     *
+     * @param id
+     * @return
+     */
+    String findAvatarById(Long id);
+
+    /**
+     * 插入聊天记录
+     *
+     * @param chat
+     * @return
+     */
+    Integer insertChatHistory(Chat chat);
+
+
+    Integer registerUser(User user);
 }

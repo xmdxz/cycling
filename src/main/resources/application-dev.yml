@@ -14,6 +14,8 @@ spring:
   devtools:
     restart:
       additional-paths: src/main/java
+    livereload:
+      enabled: false
   #redis配置
   redis:
     host: localhost
@@ -21,6 +23,18 @@ spring:
     timeout: 10000
     cacheTimeout: 1800
     specialTimeout: 1800
+  #rabbitMq配置信息
+  rabbitmq:
+    host: 101.42.242.65
+    port: 5672
+    username: admin
+    password: yx668234
+    listener:
+      simple:
+        acknowledge-mode: manual
+  jackson:
+    #忽略null
+    default-property-inclusion: non_null
 
 # 设置mybatis相关配置
 mybatis:
@@ -46,6 +60,6 @@ pagehelper:
 
 # 七牛云配置信息
 qiniu:
-  accesskey: WHJC6cwE8ILlGR87eQEHlcGum1JeCmoto69dyWDs
-  secretkey: p7VXA_fw7HLqUCUzVV5rZKeKjG4EhU8JP2ZTWq1m
-  bucket: qixing-imgs
+  accesskey: iBJyl5ptB_ark_zCscuw70lHg2xcCeAd6Gp30_u3
+  secretkey: lsZ2bkURiIyUkJHjIYOr91ZLF4qH4rWEIsYO_sjj
+  bucket: cycling-avatar

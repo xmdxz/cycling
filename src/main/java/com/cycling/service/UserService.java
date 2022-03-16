@@ -1,6 +1,7 @@
 package com.cycling.service;
 
 import com.cycling.enumerate.PersonDataType;
+import com.cycling.pojo.Chat;
 import com.cycling.pojo.User;
 import com.cycling.pojo.UserInfo;
 import com.cycling.pojo.dto.FansAndFocusDto;
@@ -86,6 +87,8 @@ public interface UserService {
      */
     List<Integer> getFocusedUserId();
 
+    Integer insertChatHistory(Chat chat);
+
     /**
      * 取消关注
      *
@@ -128,5 +131,22 @@ public interface UserService {
      * @return
      */
     Integer accountCancellation();
+
+    /**
+     * 查找头像
+     *
+     * @return
+     */
+    String getAvatar(Long id);
+
+    /**
+     * 查找聊天记录
+     *
+     * @param pageId
+     * @param num
+     * @param receiver
+     * @return
+     */
+    List<Chat> getChatHistory(Long pageId, Integer num, Long receiver);
 
 }

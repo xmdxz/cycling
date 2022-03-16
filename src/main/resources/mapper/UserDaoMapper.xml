@@ -83,10 +83,10 @@
 
     <select id="getUserShowInfo" resultType="com.cycling.pojo.dto.UserShow">
         select
-     <include refid="userShow">
-     </include>
-     from user_info where userid = #{id,jdbcType=BIGINT}
-     </select>
+        <include refid="userShow">
+        </include>
+        from user_info where userid = #{id,jdbcType=BIGINT}
+    </select>
 
     <select id="getRelatedCount" resultType="com.cycling.pojo.dto.RelatedCount">
         select (select count(id) from fans where userid = #{id,jdbcType=BIGINT}) as fansCount,
@@ -252,6 +252,40 @@
     </delete>
 
     <delete id="deleteUserRelation">
-        delete from fans where userid = #{userId,jdbcType=BIGINT} or fansid = #{userId,jdbcType=BIGINT}
+        delete
+        from fans
+        where userid = #{userId,jdbcType=BIGINT}
+           or fansid = #{userId,jdbcType=BIGINT}
     </delete>
+
+    <select id="findChatHistory" resultType="com.cycling.pojo.Chat">
+        select id, content, type, send as sender, receiver, time
+        from chat
+        where ((send = #{sender,jdbcType=BIGINT} and receiver = #{receiver,jdbcType=BIGINT})
+        or (send = #{receiver,jdbcType=BIGINT} and receiver = #{sender,jdbcType=BIGINT}))
+        <if test="pageId != null">
+            and id &lt; #{pageId,jdbcType=BIGINT}
+        </if>
+        order by time desc
+        limit #{num,jdbcType=INTEGER}
+    </select>
+
+    <select id="findAvatarById" resultType="java.lang.String">
+        select avatar
+        from user_info
+        where userid = #{id,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insertChatHistory">
+        insert into chat(content, type, send, receiver, time)
+        VALUES (#{content,jdbcType=LONGVARCHAR}, #{type,jdbcType=INTEGER}, #{sender,jdbcType=BIGINT},
+                #{receiver,jdbcType=BIGINT}, #{time,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="registerUser">
+        insert into user(password, salt, method, wx_openid, qq_openid, phone, create_time, last_login_time)
+        VALUES (#{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR},
+                #{wxOpenid,jdbcType=VARCHAR}, #{qqOpenid,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP}, #{lastLoginTime,jdbcType=TIMESTAMP})
+    </insert>
 </mapper>

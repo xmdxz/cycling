@@ -22,13 +22,14 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class RedisUtil {
-    
+
     private static RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
     public RedisUtil(RedisTemplate<String, Object> redisTemplate) {
         RedisUtil.redisTemplate = redisTemplate;
     }
+
 
     /**
      * 指定缓存失效时间
@@ -166,7 +167,7 @@ public class RedisUtil {
         if (delta < 0) {
             throw new RuntimeException("递减因子必须大于0");
         }
-        return redisTemplate.opsForValue().increment(key, -delta);
+        return redisTemplate.opsForValue().decrement(key, delta);
     }
 
     //================================Map=================================

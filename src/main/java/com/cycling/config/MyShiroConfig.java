@@ -26,7 +26,7 @@ import java.util.Map;
 @Configuration
 public class MyShiroConfig {
 
-    
+
     //创建一个shiro过滤器
     @Bean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(DefaultWebSecurityManager defaultWebSecurityManager) {
@@ -49,6 +49,7 @@ public class MyShiroConfig {
         sourceMap.put("/code", "anon");
         //anon代表可以匿名访问的过滤器的名字缩写是shiro自带的
         sourceMap.put("/", "anon");
+        sourceMap.put("/cycling/**", "anon");
         //释放swagger资源
         sourceMap.put("/swagger-ui/index.html", "anon");
         sourceMap.put("/swagger-ui/**.js", "anon");
