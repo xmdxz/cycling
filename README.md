@@ -13,7 +13,7 @@
 
 ### 秒杀问题
 
-具体流程解释移步 [输入链接说明](https://blog.csdn.net/weixin_45885574/article/details/123544861?spm=1001.2014.3001.5502)
+具体流程解释移步本人创作 [秒杀系统实现](https://blog.csdn.net/weixin_45885574/article/details/123544861?spm=1001.2014.3001.5502)
 
 **实现基本工具：**redis -------->rabbitMq----------->dao
 
