@@ -34,11 +34,7 @@
         </Point>
     </Line>
     <Info>
-        <time>
-            2小时
-        </time>
-        <long>
-            3.2公里
-        </long>
+        <time>2小时</time>
+        <long>3.2公里</long>
     </Info>
 </Map>

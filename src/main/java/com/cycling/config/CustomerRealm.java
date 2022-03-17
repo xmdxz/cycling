@@ -5,7 +5,6 @@ import com.cycling.pojo.User;
 import com.cycling.service.UserService;
 import com.cycling.utils.JWTUtils;
 import com.cycling.utils.JwtToken;
-
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -34,23 +33,27 @@ public class CustomerRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
+
     //让能识别自定义token
     @Override
     public boolean supports(AuthenticationToken token) {
         return token instanceof JwtToken;
     }
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         System.out.println("用户授权");
-        String username=(principalCollection.toString());
-        SimpleAuthorizationInfo info= new SimpleAuthorizationInfo();
+        String token = (principalCollection.toString());
+        String id =  JWTUtils.getTokenInfo(token,"id").asString();
+        User user = userService.findById(Long.valueOf(id));
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //测试
-        if (username.equals("13994722068")){
-            Set<String> role=new HashSet<>();
+        if (user.getPhone().equals("13994722068")) {
+            Set<String> role = new HashSet<>();
             role.add("admin");
             info.setRoles(role);
-        }else {
-            Set<String> role=new HashSet<>();
+        } else {
+            Set<String> role = new HashSet<>();
             role.add("user");
             info.setRoles(role);
         }
@@ -60,15 +63,13 @@ public class CustomerRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         System.out.println("shiro身份认证");
-        String token= (String) authenticationToken.getCredentials();
-        DecodedJWT tokenInfo = JWTUtils.getTokenInfo(token);
-        String username=tokenInfo.getClaim("username").asString();
-        User user=userService.findByPhone(username);
-        if (ObjectUtils.isEmpty(user)){
+        String token = (String) authenticationToken.getCredentials();
+        String id = JWTUtils.getTokenInfo(token,"id").asString();
+        User user = userService.findById(Long.valueOf(id));
+        if (ObjectUtils.isEmpty(user)) {
             throw new AuthenticationException("认证失败！");
-        }
-        else {
-            return new SimpleAuthenticationInfo(token,token,"MyRealm");
+        } else {
+            return new SimpleAuthenticationInfo(token, token, "MyRealm");
         }
 
 

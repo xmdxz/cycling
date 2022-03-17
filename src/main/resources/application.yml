@@ -33,4 +33,7 @@ logging:
 spring:
   profiles:
     active: dev
+<<<<<<< HEAD
 >>>>>>> defc165576dee2c5a504e11850c7c3335a96dfb9
+=======
+>>>>>>> dev

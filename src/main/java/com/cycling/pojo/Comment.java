@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.sql.Timestamp;
+
 /**
  * @ClassName: Comment
  * @Author: RainGoal
@@ -20,15 +22,25 @@ public class Comment {
     /**
      * 评论id
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 动态id
      */
-    private Integer dynamicId;
+    private Long dynamicId;
 
     /**
      * 用户id
      */
-    private Integer userId;
+    private Long userId;
+
+    /**
+     * 评论内容
+     */
+    private String content;
+
+    /**
+     * 评论时间
+     */
+    private Timestamp time;
 }

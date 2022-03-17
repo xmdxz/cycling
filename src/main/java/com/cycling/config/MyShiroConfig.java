@@ -43,18 +43,27 @@ public class MyShiroConfig {
         //设置放行和不放行的资源
         Map<String, String> sourceMap = new LinkedHashMap<>();
         //放行的资源
+        sourceMap.put("/ride/prepare", "anon");
         sourceMap.put("/login", "anon");
-        sourceMap.put("/", "anon");//anon代表可以匿名访问的过滤器的名字缩写是shiro自带的
+        sourceMap.put("/login2", "anon");
+        sourceMap.put("/code", "anon");
+        //anon代表可以匿名访问的过滤器的名字缩写是shiro自带的
+        sourceMap.put("/", "anon");
+        sourceMap.put("/cycling/**", "anon");
         //释放swagger资源
         sourceMap.put("/swagger-ui/index.html", "anon");
+        sourceMap.put("/swagger-ui/**.js", "anon");
+        sourceMap.put("/swagger-ui/**.css", "anon");
+        sourceMap.put("/swagger-ui/**.png", "anon");
         sourceMap.put("/swagger-resources/**/**", "anon");
         sourceMap.put("/v2/api-docs", "anon");
         sourceMap.put("/webjars/springfox-swagger-ui/**", "anon");
         sourceMap.put("/configuration/security", "anon");
         sourceMap.put("/configuration/ui", "anon");
         //拦截的资源
-        sourceMap.put("/**", "jwt");//拦截所有jwt不放行的资源  jwt是我们自定义的过滤器名字的缩写
-
+        //拦截所有jwt不放行的资源  jwt是我们自定义的过滤器名字的缩写
+        sourceMap.put("/**", "jwt");
+//        sourceMap.put("/**", "anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(sourceMap);
         return shiroFilterFactoryBean;
     }
@@ -98,7 +107,6 @@ public class MyShiroConfig {
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultWebSecurityManager defaultWebSecurityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(defaultWebSecurityManager);
-
         return authorizationAttributeSourceAdvisor;
 
     }

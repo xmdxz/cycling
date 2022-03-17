@@ -19,7 +19,7 @@ public class Dynamic {
     /**
      * 动态id
      */
-    private Integer id;
+    private Long id;
     /**
      * 动态标题
      */
@@ -29,23 +29,15 @@ public class Dynamic {
      */
     private String content;
     /**
-     * 动态图片
-     */
-    private String images;
-    /**
      * 发布时间
      */
     private Timestamp time;
     /**
      * 作者id
      */
-    private Integer authorId;
+    private Long authorId;
     /**
      * 发布地址
      */
     private String position;
-    /**
-     * 话题id
-     */
-    private String topicId;
 }
