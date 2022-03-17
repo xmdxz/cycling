@@ -1,7 +1,22 @@
+### 骑行APP的后端实现
+
+ **四人团队开发** 
+ **技术栈**  SpringBoot + Mybatis + UniApp + Vue + Shiro +Jwt +Redis + RabbitMQ + WebSocket + Nginx + MySQL
+ **项目简介**  本项目综合类较强，实现了限时活动秒杀，用户登录注册，用户动态，骑行活动，用户定位，服务端推送等功能，预期项目完成后服
+务于学校。
+ **实现细节**  亮点
+1. 使用Shiro+Redis+Jwt实现前后端分离下的登录，使用MD5加盐的形式加密。Jwt存储在前端localStorage以及缓存Redis中，实现
+token过期动态刷新，节省服务器资源，提升用户体验。
+2. 采用Redis + RabbitMq实现骑行活动限时活动加入，缓解瞬时服务器压力以及数据库压力，并通过RabbitMq进行流量削峰以及异步结果
+处理。
+3. 采用WebSocket进行用户即时聊天和服务端消息推送，通知用户系统消息。
+4. 采用Spring-AOP处理全局异常。
+5. 采用Nginx实现前端部署，减轻服务端压力。
 
 
 
-# 秒杀系统的总结实现(单机秒杀)
+### 秒杀问题
+
 
 **实现基本工具：**redis -------->rabbitMq----------->dao
 
