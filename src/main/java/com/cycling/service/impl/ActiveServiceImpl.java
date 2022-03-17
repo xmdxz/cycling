@@ -160,6 +160,7 @@ public class ActiveServiceImpl implements ActiveService {
             return -1;
         }
         if (RedisUtil.decr(activityKey, 1) < 0) {
+            RedisUtil.incr(activityKey, 1);
             //库存不足
             return 0;
         }
@@ -182,7 +183,7 @@ public class ActiveServiceImpl implements ActiveService {
         int result = activeDao.hasParticipation(participation);
         if (result > 0) {
             return 1;
-        } else if ("0".equals(RedisUtil.get(ACTIVITY_PREFIX + activityId))) {
+        } else if (activeDao.findRemain(activityId) < 1) {
             return -1;
         } else {
             return 0;
@@ -190,7 +191,7 @@ public class ActiveServiceImpl implements ActiveService {
     }
 
 
-    @RabbitListener(queues = RabbitMqConfig.SEC_KILL)
+    @RabbitListener(queues = RabbitMqConfig.SEC_KILL, concurrency = "5")
     public void executeLimitActivity(@Header(AmqpHeaders.DELIVERY_TAG) long delivery, Participation participation, Channel channel) {
         TransactionStatus transaction = dataSourceTransactionManager.getTransaction(transactionDefinition);
         try {
@@ -210,7 +211,12 @@ public class ActiveServiceImpl implements ActiveService {
             activeDao.minusRemain(participation.getLimitActivityId());
             dataSourceTransactionManager.commit(transaction);
             channel.basicAck(delivery, false);
-        } catch (IOException e) {
+        } catch (Exception e) {
+            try {
+                channel.basicReject(delivery, true);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             dataSourceTransactionManager.rollback(transaction);
             e.printStackTrace();
         }
